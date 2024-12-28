@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Customer_MNG'
+   
 ]
 
 MIDDLEWARE = [
@@ -76,7 +78,7 @@ WSGI_APPLICATION = 'QL_Care_Health.wsgi.application'
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.mysql',
-		'NAME': 'DjangoDB',
+		'NAME': 'Djangodb',
 		'USER': 'root',
 		'PASSWORD': '1234',
 		'HOST':'127.0.0.1',
