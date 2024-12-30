@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 from django.db import models
-
+#qqq
 # qqqq
 class Customer(models.Model):
     customer_id = models.AutoField(primary_key=True)
