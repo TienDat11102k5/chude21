@@ -40,6 +40,13 @@ INSTALLED_APPS = [
     'Customer_MNG',
     'Employee_MNG',
     'Veterinarian_MNG',
+    'Guest_MNG',
+    'Appointment_MNG',
+    'User_MNG',
+    'TreatmentRecord_MNG',
+    'Pet_MNG',
+    'Role_MNG',
+    'Service_MNG',
     'home'
    
 ]

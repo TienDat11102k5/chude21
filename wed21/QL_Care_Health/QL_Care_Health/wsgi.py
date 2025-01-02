@@ -10,7 +10,6 @@ https://docs.djangoproject.com/en/5.1/howto/deployment/wsgi/
 
 
 
-#123124133155353
 import os
 
 from django.core.wsgi import get_wsgi_application

@@ -1,11 +1,8 @@
-from django.shortcuts import render
-
-# Create your views here.
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Employee
 
-# View để hiển thị danh sách các nhân viên
+# View để hiển thị danh sách nhân viên
 def employee_list(request):
     employees = Employee.objects.all()
     return render(request, 'employee_list.html', {'employees': employees})
