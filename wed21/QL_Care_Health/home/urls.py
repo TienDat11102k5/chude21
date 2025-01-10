@@ -7,7 +7,9 @@ urlpatterns = [
 
     path('quan-ly-thu-cung.html', views.pet_management, name='pet_management'),
     path('success.html', views.success, name='success'),
+    path('delete_pet/<int:pet_id>/', views.delete_pet, name='delete_pet'), 
 
+    
     path('lich-su-kham.html', views.examination_history, name='history_exam'),
     path('dang-ky-kham.html', views.dang_ky_kham_view, name='register_exam'),
     path('checkin-thu-cung.html', views.checkin_thu_cung_view, name='checkin_pet'),

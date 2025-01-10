@@ -63,7 +63,6 @@
         .btn-secondary:hover {
             background-color: #5a6268;
         }
-        /* Remove underline from nav links */
         .nav-link {
             text-decoration: none !important;
         }
@@ -84,6 +83,7 @@
                         <th>Loại thú cưng</th>
                         <th>Tuổi</th>
                         <th>Lịch sử y tế</th>
+                        <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -94,10 +94,13 @@
                             <td>{{ pet.species }}</td>
                             <td>{{ pet.age }}</td>
                             <td class="medical-history">{{ pet.medical_history }}</td>
+                            <td>
+                                <a href="{% url 'delete_pet' pet.pet_id %}" class="btn btn-danger btn-sm">Xóa</a>
+                            </td>
                         </tr>
                     {% empty %}
                         <tr>
-                            <td colspan="5" class="text-center">Chưa có thú cưng nào được nhập.</td>
+                            <td colspan="6" class="text-center">Chưa có thú cưng nào được nhập.</td>
                         </tr>
                     {% endfor %}
                 </tbody>
