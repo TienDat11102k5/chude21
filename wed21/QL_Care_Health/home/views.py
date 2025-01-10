@@ -1,13 +1,37 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect,get_object_or_404
+from home.forms import Pet,PetForm
 from django.http import HttpResponse
 from django.template import loader
+from django.contrib import messages
 # Create your views here.
 def home(request):
     return render(request, 'home/hom9.html')
 def index(request):
     return render(request, 'index.html')
+#Quản lý thú cưng
+
 def pet_management(request):
-    return render(request, 'quan-ly-thu-cung.html')
+    pets = Pet.objects.all() 
+    return render(request, 'QL_DS_THU_CUNG/quan-ly-thu-cung.html', {'pets': pets})
+
+# Trang nhập thông tin thú cưng
+def success(request):
+    if request.method == 'POST':
+        form = PetForm(request.POST)
+        if form.is_valid():
+            form.save()  
+            return redirect('pet_management')  
+    else:
+        form = PetForm()
+    return render(request, 'QL_DS_THU_CUNG/success.html', {'form': form})
+
+
+
+
+
+
+#Quản lý thú cưng
+
 def examination_history(request):
     return render(request, 'lich-su-kham.html')
 def dang_ky_kham_view(request):
