@@ -26,9 +26,9 @@ def success(request):
     return render(request, 'QL_DS_THU_CUNG/success.html', {'form': form})
 
 def delete_pet(request, pet_id):
-    pet = get_object_or_404(Pet, pet_id=pet_id)  # Tìm thú cưng theo pet_id
-    pet.delete()  # Xóa thú cưng
-    return redirect('pet_management')  # Quay lại trang quản lý thú cưng
+    pet = get_object_or_404(Pet, pet_id=pet_id)
+    pet.delete() 
+    return redirect('pet_management')  
 
 #Quản lý thú cưng
 
