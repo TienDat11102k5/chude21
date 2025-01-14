@@ -4,12 +4,11 @@ from .import views
 urlpatterns = [
     path('', views.home, name="home"),
     path('index.html', views.index, name='index'),
-
+    
     path('customer_list.html', views.customer_list, name='customer_list'),
-    path('customer_list/', views.customer_list, name='customer_list'),
     path('quan-ly-thu-cung.html/<int:customer_id>/', views.pet_management, name='pet_management'),
-    path('customer_list/', views.customer_list, name='customer_list'),
-    path('success/', views.success, name='success'),
+    path('customer_list/quan-ly-thu-cung.html/<int:customer_id>/', views.customer_list, name='customer_list'),
+    path('success.html', views.success, name='success'),
     path('delete_pet/<int:pet_id>/', views.delete_pet, name='delete_pet'),
     
     path('lich-su-kham.html', views.examination_history, name='history_exam'),

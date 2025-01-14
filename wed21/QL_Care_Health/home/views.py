@@ -9,6 +9,8 @@ def home(request):
 def index(request):
     return render(request, 'index.html')
 #Quản lý thú cưng
+def customer_list(request):
+    return render(request, 'customer_list.html')
 
 def customer_list(request):
     customers = Customer.objects.all()  # Get all customers
