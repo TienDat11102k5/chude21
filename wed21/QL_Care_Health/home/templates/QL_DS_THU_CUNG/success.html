@@ -4,93 +4,65 @@
   {% include 'menu-inner.html' %}
 {% endblock %}
 
-{% block navbar %}
-  {% include 'Nav-bar.html' %}
-{% endblock %}
-
 {% block content %}
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thêm thú cưng</title>
-    <!-- Thêm Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Thêm CSS tùy chỉnh nếu cần -->
-    <style>
-      .container {
-          margin-top: 20px;
-      }
-      .btn-custom {
-          margin-top: 10px;
-      }
-      .card-custom {
-          margin-bottom: 20px;
-          padding: 20px;
-          border: 1px solid #e3e3e3;
-          border-radius: 10px;
-          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      }
-      .card-header-custom {
-          font-size: 1.25rem;
-          font-weight: bold;
-          color: #007bff;
-      }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2 class="text-center">Thêm thông tin thú cưng</h2>
-
-        <!-- Form nhập thông tin thú cưng -->
-        <div class="card card-custom">
-            <div class="card-header card-header-custom">Thông tin thú cưng</div>
-            <div class="card-body">
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="customer_id">ID khách hàng:</label>
-                        <input type="number" class="form-control" id="customer_id" name="customer_id" placeholder="Nhập ID khách hàng" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="name">Tên thú cưng:</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Nhập tên thú cưng" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="species">Loại thú cưng:</label>
-                        <input type="text" class="form-control" id="species" name="species" placeholder="Nhập loại thú cưng (vd: Chó, Mèo)" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="age">Tuổi thú cưng:</label>
-                        <input type="number" class="form-control" id="age" name="age" placeholder="Nhập tuổi thú cưng" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="medical_history">Lịch sử y tế:</label>
-                        <textarea class="form-control" id="medical_history" name="medical_history" rows="3" placeholder="Nhập lịch sử y tế của thú cưng" required></textarea>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary btn-custom">Lưu thông tin thú cưng</button>
-                    </div>
-                </form>
-            </div>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header text-center">
+            <h2>Thêm thông tin thú cưng</h2>
         </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
 
-        <!-- Quay lại trang quản lý thú cưng -->
-        <div class="card card-custom">
-            <div class="card-body text-center">
-                <a href="{% url 'pet_management' %}" class="btn btn-secondary btn-custom">Quay lại trang quản lý thú cưng</a>
-            </div>
+                <!-- Khung nhập thông tin khách hàng -->
+                <div class="form-group mb-4">
+                    <label for="{{ form.customer.id_for_label }}" class="font-weight-bold">Khách Hàng:</label>
+                    <div class="card border-primary p-3 shadow-sm rounded">
+                        {{ form.customer }}
+                    </div>
+                </div>
+
+                <!-- Khung nhập tên thú cưng -->
+                <div class="form-group mb-4">
+                    <label for="{{ form.name.id_for_label }}" class="font-weight-bold">Tên Thú Cưng:</label>
+                    <div class="card border-primary p-3 shadow-sm rounded">
+                        {{ form.name }}
+                    </div>
+                </div>
+
+                <!-- Khung nhập loại thú cưng -->
+                <div class="form-group mb-4">
+                    <label for="{{ form.species.id_for_label }}" class="font-weight-bold">Loại Thú Cưng:</label>
+                    <div class="card border-primary p-3 shadow-sm rounded">
+                        {{ form.species }}
+                    </div>
+                </div>
+
+                <!-- Khung nhập tuổi thú cưng -->
+                <div class="form-group mb-4">
+                    <label for="{{ form.age.id_for_label }}" class="font-weight-bold">Tuổi:</label>
+                    <div class="card border-primary p-3 shadow-sm rounded">
+                        {{ form.age }}
+                    </div>
+                </div>
+
+                <!-- Khung nhập lịch sử y tế -->
+                <div class="form-group mb-4">
+                    <label for="{{ form.medical_history.id_for_label }}" class="font-weight-bold">Lịch Sử Y Tế:</label>
+                    <div class="card border-primary p-3 shadow-sm rounded">
+                        {{ form.medical_history }}
+                    </div>
+                </div>
+
+                <!-- Nút lưu thông tin -->
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-primary">Lưu thông tin thú cưng</button>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer text-center">
+            <a href="{% url 'customer_list' %}" class="btn btn-secondary">Quay lại trang quản lý thú cưng</a>
         </div>
     </div>
-
-    <!-- Thêm Bootstrap JS và các phụ thuộc -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
-{% endblock %}
-
-{% block footer %}
-  {% include 'footer.html' %}
+</div>
 {% endblock %}

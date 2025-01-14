@@ -2,13 +2,15 @@ from django.contrib import admin
 from django.urls import include, path
 from .import views
 urlpatterns = [
-    path('', views.home, name ="home"),
+    path('', views.home, name="home"),
     path('index.html', views.index, name='index'),
 
-    path('quan-ly-thu-cung.html', views.pet_management, name='pet_management'),
-    path('success.html', views.success, name='success'),
-    path('delete_pet/<int:pet_id>/', views.delete_pet, name='delete_pet'), 
-
+    path('customer_list.html', views.customer_list, name='customer_list'),
+    path('customer_list/', views.customer_list, name='customer_list'),
+    path('quan-ly-thu-cung.html/<int:customer_id>/', views.pet_management, name='pet_management'),
+    path('customer_list/', views.customer_list, name='customer_list'),
+    path('success/', views.success, name='success'),
+    path('delete_pet/<int:pet_id>/', views.delete_pet, name='delete_pet'),
     
     path('lich-su-kham.html', views.examination_history, name='history_exam'),
     path('dang-ky-kham.html', views.dang_ky_kham_view, name='register_exam'),

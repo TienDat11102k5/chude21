@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from home.forms import Pet,PetForm
+from home.forms import Pet,PetForm,Customer
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib import messages
@@ -10,25 +10,38 @@ def index(request):
     return render(request, 'index.html')
 #Quản lý thú cưng
 
-def pet_management(request):
-    pets = Pet.objects.all() 
-    return render(request, 'QL_DS_THU_CUNG/quan-ly-thu-cung.html', {'pets': pets})
+def customer_list(request):
+    customers = Customer.objects.all()  # Get all customers
+    return render(request, 'QL_DS_THU_CUNG/customer_list.html', {'customers': customers})
 
-# Trang nhập thông tin thú cưng
+# View to manage pets of a specific customer
+def pet_management(request, customer_id):
+    customer = get_object_or_404(Customer, customer_id=customer_id)
+    pets = Pet.objects.filter(customer_id=customer_id)  # Get pets associated with the customer
+    return render(request, 'QL_DS_THU_CUNG/quan-ly-thu-cung.html', {'customer': customer, 'pets': pets})
+
+# View to delete a specific pet
+def delete_pet(request, pet_id):
+    pet = get_object_or_404(Pet, pet_id=pet_id)
+    pet.delete()
+    return redirect('pet_management', customer_id=pet.customer.customer_id)
+
+# View for the success page to add a new pet
+
 def success(request):
     if request.method == 'POST':
         form = PetForm(request.POST)
         if form.is_valid():
-            form.save()  
-            return redirect('pet_management')  
+            new_pet = form.save(commit=False)
+            new_pet.customer = form.cleaned_data.get('customer')
+            new_pet.save()
+            return redirect('pet_management', customer_id=new_pet.customer.customer_id)  # Use customer_id
     else:
         form = PetForm()
-    return render(request, 'QL_DS_THU_CUNG/success.html', {'form': form})
+    
+    customers = Customer.objects.all()
+    return render(request, 'QL_DS_THU_CUNG/success.html', {'form': form, 'customers': customers})
 
-def delete_pet(request, pet_id):
-    pet = get_object_or_404(Pet, pet_id=pet_id)
-    pet.delete() 
-    return redirect('pet_management')  
 
 #Quản lý thú cưng
 
