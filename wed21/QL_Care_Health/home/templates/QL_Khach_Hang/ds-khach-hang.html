@@ -1,0 +1,52 @@
+{% extends "master.html" %}
+
+{% block menu %}
+  {% include 'menu-inner.html' %}
+{% endblock %}
+
+{% block navbar %}
+  {% include 'Nav-bar.html' %}
+{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Danh sách khách hàng</title>
+</head>
+<body>
+    <h1>Danh sách khách hàng</h1>
+    <a href="{% url 'create_customer_account' %}">Thêm khách hàng</a>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Tên</th>
+            <th>Số điện thoại</th>
+            <th>Email</th>
+            <th>Địa chỉ</th>
+            <th>Sinh nhật</th>
+            <th>Mật khẩu</th>
+            <th>Hành động</th>
+        </tr>
+        {% for customer in customers %}
+        <tr>
+            <td>{{ customer.customer_id }}</td>
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.phone_number }}</td>
+            <td>{{ customer.email }}</td>
+            <td>{{ customer.address }}</td>
+            <td>{{ customer.birthday }}</td>
+            <td>{{ customer.password }}</td>
+            <td>
+                <a href="{% url 'delete_customer' customer.customer_id %}">Xóa</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+{% endblock %}
+
+{% block footer %}
+  {% include 'footer.html' %}
+{% endblock %}

@@ -8,28 +8,21 @@ def home(request):
     return render(request, 'home/hom9.html')
 def index(request):
     return render(request, 'index.html')
+
 #Quản lý thú cưng
 def customer_list(request):
     return render(request, 'customer_list.html')
-
 def customer_list(request):
-    customers = Customer.objects.all()  # Get all customers
+    customers = Customer.objects.all()
     return render(request, 'QL_DS_THU_CUNG/customer_list.html', {'customers': customers})
-
-# View to manage pets of a specific customer
 def pet_management(request, customer_id):
     customer = get_object_or_404(Customer, customer_id=customer_id)
-    pets = Pet.objects.filter(customer_id=customer_id)  # Get pets associated with the customer
+    pets = Pet.objects.filter(customer_id=customer_id) 
     return render(request, 'QL_DS_THU_CUNG/quan-ly-thu-cung.html', {'customer': customer, 'pets': pets})
-
-# View to delete a specific pet
 def delete_pet(request, pet_id):
     pet = get_object_or_404(Pet, pet_id=pet_id)
     pet.delete()
     return redirect('pet_management', customer_id=pet.customer.customer_id)
-
-# View for the success page to add a new pet
-
 def success(request):
     if request.method == 'POST':
         form = PetForm(request.POST)
@@ -37,14 +30,11 @@ def success(request):
             new_pet = form.save(commit=False)
             new_pet.customer = form.cleaned_data.get('customer')
             new_pet.save()
-            return redirect('pet_management', customer_id=new_pet.customer.customer_id)  # Use customer_id
+            return redirect('pet_management', customer_id=new_pet.customer.customer_id) 
     else:
         form = PetForm()
-    
     customers = Customer.objects.all()
     return render(request, 'QL_DS_THU_CUNG/success.html', {'form': form, 'customers': customers})
-
-
 #Quản lý thú cưng
 
 def examination_history(request):
@@ -73,8 +63,21 @@ def ghi_nhan_kham_view(request):
     return render(request, 'ghi-nhan-kham.html')
 def cham_soc_nhap_vien_view(request):
     return render(request, 'cham-soc-nhap-vien.html')
+
+#Quản Lý Khách Hàng
+def kh_list(request):
+    customers = Customer.objects.all()
+    return render(request, 'QL_Khach_Hang/ds-khach-hang.html', {'customers': customers})
+
 def create_customer_account(request):
-    return render(request, 'tao-tai-khoan-khach-hang.html')
+    return render(request, 'QL_Khach_Hang/tao-tai-khoan-khach-hang.html')
+
+def delete_customer(request, customer_id):
+    customer = get_object_or_404(Customer, pk=customer_id)
+    customer.delete()
+    return redirect('ds-khach-hang')  
+#Quản Lý Khách Hàng
+
 def create_employee_account(request):
     return render(request, 'tao-tai-khoan-nhan-vien.html')
 def create_doctor_account(request):

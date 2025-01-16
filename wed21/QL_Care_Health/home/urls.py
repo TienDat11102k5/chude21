@@ -11,6 +11,7 @@ urlpatterns = [
     path('success.html', views.success, name='success'),
     path('delete_pet/<int:pet_id>/', views.delete_pet, name='delete_pet'),
     
+    
     path('lich-su-kham.html', views.examination_history, name='history_exam'),
     path('dang-ky-kham.html', views.dang_ky_kham_view, name='register_exam'),
     path('checkin-thu-cung.html', views.checkin_thu_cung_view, name='checkin_pet'),
@@ -24,7 +25,12 @@ urlpatterns = [
     path('thoi-gian-kham.html', views.thoi_gian_kham_view, name='exam_time'),
     path('ghi-nhan-kham.html', views.ghi_nhan_kham_view, name='record_exam'),
     path('cham-soc-nhap-vien.html', views.cham_soc_nhap_vien_view, name='care_admission'),
+
+
+    path('ds-khach-hang.html', views.kh_list, name='ds-khach-hang'),
     path('tao-tai-khoan-khach-hang.html', views.create_customer_account, name='create_customer_account'),
+    path('customers/delete/<int:customer_id>/', views.delete_customer, name='delete_customer'),
+    
     path('tao-tai-khoan-nhan-vien.html', views.create_employee_account, name='create_employee_account'),
     path('tao-tai-khoan-bac-si.html', views.create_doctor_account, name='create_doctor_account'),
     path('cau-hinh-he-thong.html', views.system_configuration, name='system_configuration'),
