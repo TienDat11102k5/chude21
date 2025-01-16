@@ -9,7 +9,6 @@ class Veterinarian(models.Model):
     email = models.EmailField(blank=True, null=True)
     birthday = models.DateField(blank=True, null=True)
     password = models.CharField(max_length=128) 
-
     def set_password(self, raw_password):
         self.password = make_password(raw_password)
 

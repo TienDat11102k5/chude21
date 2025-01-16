@@ -1,7 +1,7 @@
 from django import forms
 from Pet_MNG.models import Pet
 from Customer_MNG.models import Customer
-from Employee_Mng.models import Employee
+from Employee_MNG.models import Employee
 from Veterinarian_MNG.models import Veterinarian
 class PetForm(forms.ModelForm):
     class Meta:
