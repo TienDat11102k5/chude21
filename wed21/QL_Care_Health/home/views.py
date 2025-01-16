@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from home.forms import Pet,PetForm,Customer
+from home.forms import Pet,PetForm,Customer,CustomerForm,Employee,EmployeeForm,Veterinarian,VeterinarianForm
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib import messages
@@ -70,16 +70,47 @@ def kh_list(request):
     return render(request, 'QL_Khach_Hang/ds-khach-hang.html', {'customers': customers})
 
 def create_customer_account(request):
-    return render(request, 'QL_Khach_Hang/tao-tai-khoan-khach-hang.html')
+    if request.method == 'POST':
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('ds-khach-hang')
+        else:
+            print(form.errors)
+    else:
+        form = CustomerForm()
+    return render(request, 'QL_Khach_Hang/tao-tai-khoan-khach-hang.html', {'form': form})
 
 def delete_customer(request, customer_id):
     customer = get_object_or_404(Customer, pk=customer_id)
     customer.delete()
-    return redirect('ds-khach-hang')  
+    return redirect('ds-khach-hang') 
+
 #Quản Lý Khách Hàng
 
+# Quản lý nhân viên
+def nv_list(request):
+    employees = Employee.objects.all()
+    return render(request, 'QL_Nhan_Vien/ds-nhan-vien.html', {'employees': employees})
+
 def create_employee_account(request):
-    return render(request, 'tao-tai-khoan-nhan-vien.html')
+    if request.method == 'POST':
+        form = EmployeeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('ds-nhan-vien')
+        else:
+            print(form.errors)
+    else:
+        form = EmployeeForm()
+    return render(request, 'QL_Nhan_Vien/tao-tai-khoan-nhan-vien.html', {'form': form})
+
+def delete_employee(request, employee_id):
+    employee = get_object_or_404(Employee, pk=employee_id)
+    employee.delete()
+    return redirect('ds-nhan-vien') 
+# Quản lý nhân viên
+
 def create_doctor_account(request):
     return render(request, 'tao-tai-khoan-bac-si.html')
 def system_configuration(request):

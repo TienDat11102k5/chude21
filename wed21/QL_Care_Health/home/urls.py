@@ -26,13 +26,23 @@ urlpatterns = [
     path('ghi-nhan-kham.html', views.ghi_nhan_kham_view, name='record_exam'),
     path('cham-soc-nhap-vien.html', views.cham_soc_nhap_vien_view, name='care_admission'),
 
-
+    # tài khoản khách hàng
     path('ds-khach-hang.html', views.kh_list, name='ds-khach-hang'),
     path('tao-tai-khoan-khach-hang.html', views.create_customer_account, name='create_customer_account'),
     path('customers/delete/<int:customer_id>/', views.delete_customer, name='delete_customer'),
-    
+    # tài khoản khách hàng
+
+    # tài khoản nhân viên
+    path('ds-nhan-vien.html', views.nv_list, name='ds-nhan-vien'),
     path('tao-tai-khoan-nhan-vien.html', views.create_employee_account, name='create_employee_account'),
+    path('employees/delete/<int:employee_id>/', views.delete_employee, name='delete_employee'),
+    # tài khoản nhân viên
+
+
+    # tài khoản bác sỹ
     path('tao-tai-khoan-bac-si.html', views.create_doctor_account, name='create_doctor_account'),
+
+    # tài khoản bác sỹ
     path('cau-hinh-he-thong.html', views.system_configuration, name='system_configuration'),
     path('thong-ke-hoat-dong.html', views.activity_statistics, name='activity_statistics'),
 ]

@@ -38,15 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Customer_MNG',
-    'Employee_MNG',
+    'Employee_Mng',
     'Veterinarian_MNG',
-    'Guest_MNG',
-    'Appointment_MNG',
-    'User_MNG',
-    'TreatmentRecord_MNG',
     'Pet_MNG',
-    'Role_MNG',
-    'Service_MNG',
     'home'
    
 ]

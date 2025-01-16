@@ -4,10 +4,6 @@
   {% include 'menu-inner.html' %}
 {% endblock %}
 
-{% block navbar %}
-  {% include 'Nav-bar.html' %}
-{% endblock %}
-
 {% block content %}
 <html lang="vi">
 <head>
@@ -104,15 +100,15 @@
                 {% endfor %}
             </tbody>
         </table>
-        <div class="text-center mt-3">
-            <a href="{% url 'success' %}" class="btn btn-success">Thêm Thú Cưng</a>
-        </div>
-        <div class="text-center mt-3">
-            <a href="{% url 'customer_list' %}" class="btn btn-outline-secondary px-4 py-2 rounded-3 shadow-sm btn-hover">Quay Lại</a>
-        </div>
+        <div class="row mt-3 d-flex justify-content-end">
+            <div class="col-auto">
+                <a href="{% url 'success' %}" class="btn btn-success">Thêm Thú Cưng</a>
+            </div>
+            <div class="col-auto">
+                <a href="{% url 'customer_list' %}" class="btn btn-outline-secondary px-4 py-2 rounded-3 shadow-sm btn-hover">Quay Lại</a>
+            </div>
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
