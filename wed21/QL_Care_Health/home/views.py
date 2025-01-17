@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from home.forms import Pet,PetForm,Customer,CustomerForm,Employee,EmployeeForm,Veterinarian,VeterinarianForm
+from home.forms import Pet,PetForm,Customer,CustomerForm,Employee,EmployeeForm
+from home.forms import Veterinarian, VeterinarianForm
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib import messages
@@ -111,8 +112,30 @@ def delete_employee(request, employee_id):
     return redirect('ds-nhan-vien') 
 # Quản lý nhân viên
 
+# Quản lý bác sĩ
+def bs_list(request):
+    veterinarians= Veterinarian.objects.all()
+    return render(request, 'QL_Bac_Si/ds-bac-si.html', {'veterinarians': veterinarians})
+
 def create_doctor_account(request):
-    return render(request, 'tao-tai-khoan-bac-si.html')
+    if request.method == 'POST':
+        form = VeterinarianForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('ds-bac-si')
+        else:
+            print(form.errors)
+    else:
+        form = VeterinarianForm()
+    return render(request, 'QL_Bac_Si/tao-tai-khoan-bac-si.html', {'form': form})
+
+def delete_veterinarian(request, veterinarian_id):
+    employee = get_object_or_404(Employee, pk=veterinarian_id)
+    employee.delete()
+    return redirect('ds-bac-si') 
+# Quản lý bác sĩ
+
+
 def system_configuration(request):
     return render(request, 'cau-hinh-he-thong.html')
 def activity_statistics(request):

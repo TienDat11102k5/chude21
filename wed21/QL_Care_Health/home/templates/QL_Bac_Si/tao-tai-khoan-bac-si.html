@@ -1,0 +1,119 @@
+{% extends "master.html" %}
+
+{% block menu %}
+  {% include 'menu-inner.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h2 class="text-primary fw-bold">Tạo Tài Khoản Bác Sĩ</h2>
+        <p class="text-muted">Điền thông tin bên dưới để tạo tài khoản bác sĩ mới.</p>
+    </div>
+
+    <form method="post" class="border rounded-3 shadow-lg p-4 bg-white">
+        {% csrf_token %}
+        
+        <!-- Tên Bác Sĩ -->
+        <div class="mb-4">
+            <label for="{{ form.name.id_for_label }}" class="form-label fw-bold text-secondary">{{ form.name.label }}</label>
+            <div class="input-group shadow-sm">
+                {{ form.name }}
+            </div>
+        </div>
+
+        <!-- Số Điện Thoại -->
+        <div class="mb-4">
+            <label for="{{ form.phone_number.id_for_label }}" class="form-label fw-bold text-secondary">{{ form.phone_number.label }}</label>
+            <div class="input-group shadow-sm">
+                {{ form.phone_number }}
+            </div>
+        </div>
+
+        <!-- Địa Chỉ -->
+        <div class="mb-4">
+            <label for="{{ form.address.id_for_label }}" class="form-label fw-bold text-secondary">{{ form.address.label }}</label>
+            <div class="input-group shadow-sm">
+                {{ form.address }}
+            </div>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-4">
+            <label for="{{ form.email.id_for_label }}" class="form-label fw-bold text-secondary">{{ form.email.label }}</label>
+            <div class="input-group shadow-sm">
+                {{ form.email }}
+            </div>
+        </div>
+
+        <!-- Ngày Sinh -->
+        <div class="mb-4">
+            <label for="{{ form.birthday.id_for_label }}" class="form-label fw-bold text-secondary">{{ form.birthday.label }}</label>
+            <div class="input-group shadow-sm">
+                {{ form.birthday }}
+            </div>
+        </div>
+
+        <!-- Mật Khẩu -->
+        <div class="mb-4">
+            <label for="{{ form.password.id_for_label }}" class="form-label fw-bold text-secondary">{{ form.password.label }}</label>
+            <div class="input-group shadow-sm">
+                {{ form.password }}
+            </div>
+        </div>
+
+        <!-- Nút tạo tài khoản và quay lại -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success px-4 py-2 rounded-3 shadow-sm btn-hover">Tạo Tài Khoản</button>
+            <a href="{% url 'ds-bac-si' %}" class="btn btn-outline-secondary px-4 py-2 rounded-3 shadow-sm btn-hover">Quay Lại</a>
+        </div>
+    </form>
+</div>
+
+<style>
+    .input-group input,
+    .input-group select,
+    .input-group textarea {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        width: 100%;
+    }
+
+    .btn-hover:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .shadow-sm {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .rounded-3 {
+        border-radius: 1rem;
+    }
+
+    .form-label {
+        font-size: 1.1rem;
+    }
+
+    .btn-outline-secondary {
+        border-color: #6c757d;
+        color: #6c757d;
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .container {
+        background-color: #f9f9f9;
+        padding: 30px;
+        border-radius: 8px;
+    }
+</style>
+{% endblock %}
+
+{% block footer %}
+  {% include 'footer.html' %}
+{% endblock %}

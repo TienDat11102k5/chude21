@@ -40,9 +40,12 @@ urlpatterns = [
 
 
     # tài khoản bác sỹ
+    path('ds-bac-si.html', views.bs_list, name='ds-bac-si'),
     path('tao-tai-khoan-bac-si.html', views.create_doctor_account, name='create_doctor_account'),
-
+    path('veterinarians/delete/<int:employee_id>/', views.delete_veterinarian, name='delete_veterinarian'),
     # tài khoản bác sỹ
+
+
     path('cau-hinh-he-thong.html', views.system_configuration, name='system_configuration'),
     path('thong-ke-hoat-dong.html', views.activity_statistics, name='activity_statistics'),
 ]
