@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách bác sĩ - Đăng ký lịch</title>
+</head>
+<body>
+    <h1>Danh sách bác sĩ</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Tên bác sĩ</th>
+                <th>Thời gian khám</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+                <tr>
+                    <td rowspan="{{ item.lich_trinh_list|length }}">{{ item.veterinarian.name }}</td> <!-- Hiển thị tên bác sĩ trong nhiều dòng -->
+                    {% for lich_trinh in item.lich_trinh_list %}
+                        <td>{{ lich_trinh.date }}: {{ lich_trinh.start_time }} - {{ lich_trinh.end_time }}</td>
+                        <td>
+                            <a href="{% url 'exam_time' item.veterinarian.veterinarian_id %}">
+                                Đăng ký thời gian khám
+                            </a>
+                            <a href="{% url 'delete_lichDK' lich_trinh.id %}">
+                                Xóa lịch khám
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% if item.lich_trinh_list|length == 0 %}
+                    <tr>
+                        <td colspan="2">Chưa có lịch khám</td>
+                        <td>
+                            <a href="{% url 'exam_time' item.veterinarian.veterinarian_id %}">
+                                Đăng ký thời gian khám
+                            </a>
+                        </td>
+                    </tr>
+                    {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

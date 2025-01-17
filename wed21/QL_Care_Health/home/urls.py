@@ -22,7 +22,16 @@ urlpatterns = [
     path('cap-nhat-thong-tin-chuong.html', views.cap_nhat_thong_tin_chuong_view, name='update_kennel'),
     path('sap-lich-kham.html', views.sap_lich_kham_view, name='schedule_exam'),
     path('sap-lich-nhap-vien.html', views.sap_lich_nhap_vien_view, name='schedule_admission'),
+
+
+
+    path('lich-dang-ky.html', views.lichDK_list, name='lichDK_list'),
     path('thoi-gian-kham.html', views.thoi_gian_kham_view, name='exam_time'),
+    path('thoi-gian-kham/<int:veterinarian_id>/', views.thoi_gian_kham_view, name='exam_time'),
+    path('delete_lichDK/<int:lich_trinh_id>/', views.delete_lichDK, name='delete_lichDK'),
+
+
+
     path('ghi-nhan-kham.html', views.ghi_nhan_kham_view, name='record_exam'),
     path('cham-soc-nhap-vien.html', views.cham_soc_nhap_vien_view, name='care_admission'),
 
@@ -32,6 +41,9 @@ urlpatterns = [
     path('customers/delete/<int:customer_id>/', views.delete_customer, name='delete_customer'),
     # tài khoản khách hàng
 
+#-------------------------------------------------------------------------------------------------------------#
+   
+   
     # tài khoản nhân viên
     path('ds-nhan-vien.html', views.nv_list, name='ds-nhan-vien'),
     path('tao-tai-khoan-nhan-vien.html', views.create_employee_account, name='create_employee_account'),

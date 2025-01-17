@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from home.forms import Pet,PetForm,Customer,CustomerForm,Employee,EmployeeForm
-from home.forms import Veterinarian, VeterinarianForm
+from home.forms import Veterinarian, VeterinarianForm,LichTrinhBS,LichTrinhBSForm
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib import messages
@@ -58,8 +58,41 @@ def sap_lich_kham_view(request):
     return render(request, 'sap-lich-kham.html')
 def sap_lich_nhap_vien_view(request):
     return render(request, 'sap-lich-nhap-vien.html')
-def thoi_gian_kham_view(request):
-    return render(request, 'thoi-gian-kham.html')
+
+#Đăng ký lịch trình bác sĩ
+def lichDK_list(request):
+    veterinarians = Veterinarian.objects.all()  # Lấy tất cả bác sĩ
+    data = []
+    for vet in veterinarians:
+        lich_trinh_list = vet.lich_trinh.all()  # Lấy tất cả lịch khám của bác sĩ
+        data.append({
+            'veterinarian': vet,
+            'lich_trinh_list': lich_trinh_list
+        })
+    return render(request, 'BS_DK_Lich/lich-dang-ky.html', {'data': data})
+
+def thoi_gian_kham_view(request, veterinarian_id):
+    veterinarian = get_object_or_404(Veterinarian, pk=veterinarian_id)
+    if request.method == 'POST':
+        form = LichTrinhBSForm(request.POST)
+        if form.is_valid():
+            lich_trinh = form.save(commit=False)
+            lich_trinh.veterinarian = veterinarian
+            lich_trinh.save()
+            return redirect('lichDK_list')
+    else:
+        form = LichTrinhBSForm()
+    return render(request, 'BS_DK_Lich/thoi-gian-kham.html', {'form': form, 'veterinarian': veterinarian})
+
+def delete_lichDK(request, lich_trinh_id):
+    lich_trinh = LichTrinhBS.objects.filter(id=lich_trinh_id).first()
+    if lich_trinh:
+        lich_trinh.delete()
+    return redirect('lichDK_list')
+
+#Đăng ký lịch trình bác sĩ
+
+
 def ghi_nhan_kham_view(request):
     return render(request, 'ghi-nhan-kham.html')
 def cham_soc_nhap_vien_view(request):
@@ -86,10 +119,11 @@ def delete_customer(request, customer_id):
     customer = get_object_or_404(Customer, pk=customer_id)
     customer.delete()
     return redirect('ds-khach-hang') 
-
 #Quản Lý Khách Hàng
 
-# Quản lý nhân viên
+
+
+#Quản lý nhân viên
 def nv_list(request):
     employees = Employee.objects.all()
     return render(request, 'QL_Nhan_Vien/ds-nhan-vien.html', {'employees': employees})
@@ -110,7 +144,9 @@ def delete_employee(request, employee_id):
     employee = get_object_or_404(Employee, pk=employee_id)
     employee.delete()
     return redirect('ds-nhan-vien') 
-# Quản lý nhân viên
+#Quản lý nhân viên
+
+
 
 # Quản lý bác sĩ
 def bs_list(request):

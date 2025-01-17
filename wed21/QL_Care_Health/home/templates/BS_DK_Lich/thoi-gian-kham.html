@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký thời gian khám</title>
+</head>
+<body>
+    <h1>Đăng ký thời gian khám</h1>
+
+    <!-- Hiển thị thông tin bác sĩ -->
+    <h2>Bác sĩ: {{ veterinarian.name }}</h2>
+
+    <!-- Form đăng ký thời gian khám -->
+    <form method="post">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>Ngày khám:</td>
+                <td>{{ form.date }}</td>
+            </tr>
+            <tr>
+                <td>Giờ bắt đầu:</td>
+                <td>{{ form.start_time }}</td>
+            </tr>
+            <tr>
+                <td>Giờ kết thúc:</td>
+                <td>{{ form.end_time }}</td>
+            </tr>
+        </table>
+        <button type="submit">Lưu lịch khám</button>
+    </form>
+
+    <!-- Nút quay lại -->
+    <a href="{% url 'lichDK_list' %}">Quay lại danh sách bác sĩ</a>
+</body>
+</html>
