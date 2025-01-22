@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from home.forms import Pet,PetForm,Customer,CustomerForm,Employee,EmployeeForm
-from home.forms import Veterinarian, VeterinarianForm,LichTrinhBS,LichTrinhBSForm
+from home.forms import Veterinarian, VeterinarianForm,LichTrinhBS,LichTrinhBSForm,Booking,BookingForm
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib import messages
@@ -40,16 +40,57 @@ def success(request):
 
 def examination_history(request):
     return render(request, 'lich-su-kham.html')
-def dang_ky_kham_view(request):
-    return render(request, 'dang-ky-kham.html')
+
+
+
+def customer_booking(request):
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            booking = form.save()
+            messages.success(request, 'Lịch đặt đã được tạo thành công!')
+            return redirect('customer_booking')
+    else:
+        form = BookingForm()
+
+    # Thay thế request.user.customer bằng danh sách khách hàng tùy chỉnh
+    customers = Customer.objects.all()  
+    bookings = Booking.objects.filter(customer__in=customers)
+    return render(request, 'Booking/dang-ky-kham.html', {'form': form, 'bookings': bookings})
+
+
+def customer_cancel_booking(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+    if booking.status != 'Pending':
+        messages.error(request, 'Lịch đặt không thể hủy.')
+    else:
+        booking.cancel_booking()
+        messages.success(request, 'Bạn đã hủy lịch đặt thành công.')
+    return redirect('customer_booking')
+
+
+def quan_ly_booking_view(request):
+    bookings = Booking.objects.all()
+    return render(request, 'Booking/quan-ly-booking.html', {'bookings': bookings})
+
+
+def employee_cancel_booking(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+    if booking.status != 'Pending':
+        messages.error(request, 'Lịch đặt không thể hủy.')
+    else:
+        booking.cancel_booking(cancelled_by_employee=True)
+        messages.success(request, f'Nhân viên đã hủy lịch đặt ID {booking_id} thành công.')
+    return redirect('manage_booking')
+
+
 def checkin_thu_cung_view(request):
     return render(request, 'checkin-thu-cung.html')
 def danh_gia_kham_view(request):
     return render(request, 'danh-gia-kham.html')
 def theo_doi_nhap_vien_view(request):
     return render(request, 'theo-doi-nhap-vien.html')
-def quan_ly_booking_view(request):
-    return render(request, 'quan-ly-booking.html')
+
 def quan_ly_chuong_view(request):
     return render(request, 'quan-ly-chuong.html')
 def cap_nhat_thong_tin_chuong_view(request):

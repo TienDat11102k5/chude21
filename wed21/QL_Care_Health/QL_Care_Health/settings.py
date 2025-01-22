@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'Employee_MNG',
     'Veterinarian_MNG',
     'Pet_MNG',
+    'Booking_MNG',
     'LichTrinhBS_MNG',
+    'EmployeeManager_MNG',
     'home'
    
 ]

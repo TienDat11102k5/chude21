@@ -4,7 +4,7 @@ from Customer_MNG.models import Customer
 from Employee_MNG.models import Employee
 from Veterinarian_MNG.models import Veterinarian
 from LichTrinhBS_MNG.models import LichTrinhBS
-
+from Booking_MNG.models import Booking
 class PetForm(forms.ModelForm):
     class Meta:
         model = Pet
@@ -43,3 +43,17 @@ class LichTrinhBSForm(forms.ModelForm):
             'start_time': forms.TimeInput(attrs={'type': 'time'}),
             'end_time': forms.TimeInput(attrs={'type': 'time'}),
         }
+
+class BookingForm(forms.ModelForm):
+    class Meta:
+        model = Booking
+        fields = ['customer', 'pet', 'veterinarian', 'appointment_date', 'fee']
+        widgets = {
+            'appointment_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
+        
+
+class BookingManagementForm(forms.ModelForm):
+    class Meta:
+        model = Booking
+        fields = ['status']

@@ -1,0 +1,27 @@
+<h1>Quản lý lịch đặt</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Khách hàng</th>
+        <th>Thú cưng</th>
+        <th>Ngày hẹn</th>
+        <th>Trạng thái</th>
+        <th>Hành động</th>
+    </tr>
+    {% for booking in bookings %}
+    <tr>
+        <td>{{ booking.id }}</td>
+        <td>{{ booking.customer.name }}</td>
+        <td>{{ booking.pet.name }}</td>
+        <td>{{ booking.appointment_date }}</td>
+        <td>{{ booking.status }}</td>
+        <td>
+            {% if booking.status == "Pending" %}
+            <a href="{% url 'employee_cancel_booking' booking.id %}">Hủy</a>
+            {% else %}
+            Không thể hủy
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>

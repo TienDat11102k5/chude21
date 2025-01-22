@@ -1,0 +1,32 @@
+<h1>Đặt lịch khám</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Đặt lịch</button>
+</form>
+
+<h2>Lịch đặt của bạn</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Thú cưng</th>
+        <th>Ngày hẹn</th>
+        <th>Trạng thái</th>
+        <th>Hành động</th>
+    </tr>
+    {% for booking in bookings %}
+    <tr>
+        <td>{{ booking.id }}</td>
+        <td>{{ booking.pet.name }}</td>
+        <td>{{ booking.appointment_date }}</td>
+        <td>{{ booking.status }}</td>
+        <td>
+            {% if booking.status == "Pending" %}
+            <a href="{% url 'customer_cancel_booking' booking.id %}">Hủy</a>
+            {% else %}
+            Không thể hủy
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
