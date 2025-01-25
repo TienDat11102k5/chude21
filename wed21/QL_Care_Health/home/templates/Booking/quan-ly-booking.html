@@ -1,27 +1,98 @@
-<h1>Quản lý lịch đặt</h1>
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Khách hàng</th>
-        <th>Thú cưng</th>
-        <th>Ngày hẹn</th>
-        <th>Trạng thái</th>
-        <th>Hành động</th>
-    </tr>
-    {% for booking in bookings %}
-    <tr>
-        <td>{{ booking.id }}</td>
-        <td>{{ booking.customer.name }}</td>
-        <td>{{ booking.pet.name }}</td>
-        <td>{{ booking.appointment_date }}</td>
-        <td>{{ booking.status }}</td>
-        <td>
-            {% if booking.status == "Pending" %}
-            <a href="{% url 'employee_cancel_booking' booking.id %}">Hủy</a>
-            {% else %}
-            Không thể hủy
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+{% extends "master.html" %}
+
+{% block menu %}
+  {% include 'menu-inner.html' %}
+{% endblock %}
+
+{% block content %}
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Lịch Đặt</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin-bottom: 30px;
+            color: #343a40;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+            text-align: left;
+        }
+        .table-striped tbody tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+        .table-responsive {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .btn-warning {
+            color: #fff;
+            background-color: #ffc107;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Quản Lý Lịch Đặt</h1>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Khách hàng</th>
+                        <th>Thú cưng</th>
+                        <th>Ngày hẹn</th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                        <tr>
+                            <td>{{ booking.id }}</td>
+                            <td>{{ booking.customer.name }}</td>
+                            <td>{{ booking.pet.name }}</td>
+                            <td>{{ booking.appointment_date }}</td>
+                            <td>{{ booking.status }}</td>
+                            <td>
+                                {% if booking.status == "Pending" %}
+                                    <a href="{% url 'employee_cancel_booking' booking.id %}" class="btn btn-warning btn-sm">Hủy</a>
+                                {% else %}
+                                    Không thể hủy
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+{% endblock %}
+
+{% block footer %}
+  {% include 'footer.html' %}
+{% endblock %}
