@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from home.forms import Pet,PetForm,Customer,CustomerForm,Employee,EmployeeForm
 from home.forms import Veterinarian, VeterinarianForm,LichTrinhBS,LichTrinhBSForm,Booking,BookingForm
-from django.http import HttpResponse
+from django.http import HttpResponseForbidden
 from django.template import loader
 from django.contrib import messages
 # Create your views here.
@@ -47,32 +47,35 @@ def customer_booking(request):
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
-            booking = form.save()
+            booking = form.save(commit=False)
+            booking.status = 'Pending'
+            booking.save()
             messages.success(request, 'Lịch đặt đã được tạo thành công!')
             return redirect('customer_booking')
     else:
         form = BookingForm()
 
-    # Thay thế request.user.customer bằng danh sách khách hàng tùy chỉnh
-    customers = Customer.objects.all()  
+    customers = Customer.objects.all()
     bookings = Booking.objects.filter(customer__in=customers)
     return render(request, 'Booking/dang-ky-kham.html', {'form': form, 'bookings': bookings})
 
-
 def customer_cancel_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
+
     if booking.status != 'Pending':
         messages.error(request, 'Lịch đặt không thể hủy.')
     else:
-        booking.cancel_booking()
+        booking.cancel_booking(cancelled_by_customer=True)
         messages.success(request, 'Bạn đã hủy lịch đặt thành công.')
+    
     return redirect('customer_booking')
+
 
 
 def quan_ly_booking_view(request):
     bookings = Booking.objects.all()
-    return render(request, 'Booking/quan-ly-booking.html', {'bookings': bookings})
-
+    veterinarians = Veterinarian.objects.all()
+    return render(request, 'Booking/quan-ly-booking.html', {'bookings': bookings, 'veterinarians': veterinarians})
 
 def employee_cancel_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
@@ -81,8 +84,60 @@ def employee_cancel_booking(request, booking_id):
     else:
         booking.cancel_booking(cancelled_by_employee=True)
         messages.success(request, f'Nhân viên đã hủy lịch đặt ID {booking_id} thành công.')
-    return redirect('manage_booking')
+    return redirect('quan_ly_booking')
 
+def change_veterinarian(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+    veterinarians = Veterinarian.objects.all()
+    if request.method == "POST":
+        veterinarian_id = request.POST.get('veterinarian')
+        if veterinarian_id:
+            try:
+                veterinarian = get_object_or_404(Veterinarian, id=veterinarian_id)
+                booking.veterinarian = veterinarian
+                booking.save()
+                messages.success(request, "Cập nhật bác sĩ thành công!")
+            except Exception as e:
+                messages.error(request, f"Lỗi khi cập nhật bác sĩ: {e}")
+        else:
+            messages.error(request, "Vui lòng chọn bác sĩ trước khi cập nhật.")
+        return redirect('quan_ly_booking')
+
+    return render(request, 'change_veterinarian.html', {
+        'booking': booking,
+        'veterinarians': veterinarians
+    })
+
+def employee_change_booking_status(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+    if not request.user.has_perm('Booking.change_booking_status'):  # Kiểm tra quyền truy cập
+        return HttpResponseForbidden("Bạn không có quyền chỉnh sửa trạng thái.")
+    if request.method == 'POST':
+        new_status = request.POST.get('status')  # Lấy trạng thái mới từ POST
+        if new_status in ['Pending', 'Confirmed', 'Cancelled']:
+            booking.status = new_status  # Cập nhật trạng thái của booking
+            # Nếu trạng thái là 'Confirmed' và chưa có bác sĩ, yêu cầu chọn bác sĩ
+            if new_status == 'Confirmed' and not booking.veterinarian:
+                veterinarian_id = request.POST.get('veterinarian')
+                if veterinarian_id:
+                    veterinarian = get_object_or_404(Veterinarian, id=veterinarian_id)
+                    booking.veterinarian = veterinarian  # Gán bác sĩ cho lịch đặt
+                else:
+                    # Nếu không có bác sĩ được chọn, tự động gán bác sĩ đầu tiên trong danh sách
+                    default_veterinarian = Veterinarian.objects.first()
+                    if default_veterinarian:
+                        booking.veterinarian = default_veterinarian
+            booking.save()  # Lưu thay đổi vào cơ sở dữ liệu
+            messages.success(request, f"Trạng thái lịch đặt ID {booking.id} đã được cập nhật thành công!")
+        else:
+            messages.error(request, "Trạng thái không hợp lệ.")
+    return redirect('quan_ly_booking')
+
+def delete_booking(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+    booking.delete()
+    messages.success(request, f'Lịch đặt ID {booking_id} đã được xóa thành công.')
+    return redirect('quan_ly_booking')
 
 def checkin_thu_cung_view(request):
     return render(request, 'checkin-thu-cung.html')

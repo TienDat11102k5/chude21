@@ -36,16 +36,20 @@
             max-height: 500px;
             overflow-y: auto;
         }
-        .btn-warning {
+        .btn-primary, .btn-danger {
             color: #fff;
-            background-color: #ffc107;
-            border: none;
             padding: 5px 10px;
             border-radius: 4px;
             transition: background-color 0.3s;
         }
-        .btn-warning:hover {
-            background-color: #e0a800;
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
         }
     </style>
 </head>
@@ -60,6 +64,7 @@
                         <th>Khách hàng</th>
                         <th>Thú cưng</th>
                         <th>Ngày hẹn</th>
+                        <th>Bác sĩ</th>
                         <th>Trạng thái</th>
                         <th>Hành động</th>
                     </tr>
@@ -71,13 +76,38 @@
                             <td>{{ booking.customer.name }}</td>
                             <td>{{ booking.pet.name }}</td>
                             <td>{{ booking.appointment_date }}</td>
-                            <td>{{ booking.status }}</td>
                             <td>
-                                {% if booking.status == "Pending" %}
-                                    <a href="{% url 'employee_cancel_booking' booking.id %}" class="btn btn-warning btn-sm">Hủy</a>
-                                {% else %}
-                                    Không thể hủy
-                                {% endif %}
+                                <form action="{% url 'employee_change_booking_status' booking.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="veterinarian">Bác sĩ:</label>
+                                        <select name="veterinarian" class="form-control form-control-sm">
+                                            <option value="">-- Chọn bác sĩ --</option>
+                                            {% for vet in veterinarians %}
+                                                <option value="{{ vet.id }}" {% if booking.veterinarian == vet %}selected{% endif %}>
+                                                    {{ vet.name }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                            </td>
+                            <td>
+                                    <div class="form-group">
+                                        <label for="status">Trạng thái:</label>
+                                        <select name="status" class="form-control form-control-sm">
+                                            <option value="Pending" {% if booking.status == "Pending" %}selected{% endif %}>Pending</option>
+                                            <option value="Confirmed" {% if booking.status == "Confirmed" %}selected{% endif %}>Confirmed</option>
+                                            <option value="Cancelled" {% if booking.status == "Cancelled" %}selected{% endif %}>Cancelled</option>
+                                        </select>
+                                    </div>
+                            </td>
+                            <td>
+                                    <button type="submit" class="btn btn-primary btn-sm">Cập nhật</button>
+                                </form>
+                                <form action="{% url 'delete_booking' booking.id %}" method="POST" style="display:inline-block;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa lịch đặt này?')">Xóa</button>
+                                </form>
                             </td>
                         </tr>
                     {% endfor %}
@@ -85,10 +115,6 @@
             </table>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
 {% endblock %}

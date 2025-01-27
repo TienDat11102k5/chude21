@@ -29,10 +29,14 @@ urlpatterns = [
 
 #-------------------------------------------------------------------------------------------------------------#
     #BookingBooking
-     path('dang-ky-kham.html', views.customer_booking, name='customer_booking'),
-    path('customer/cancel-booking/<int:booking_id>/', views.customer_cancel_booking, name='customer_cancel_booking'),
-    path('quan-ly-booking.html', views.quan_ly_booking_view, name='manage_booking'),
+
+    path('dang-ky-kham.html', views.customer_booking, name='customer_booking'),
+    path('cancel_booking/<int:booking_id>/', views.customer_cancel_booking, name='customer_cancel_booking'),
+    path('quan-ly-booking.html', views.quan_ly_booking_view, name='quan_ly_booking'),
     path('employee/cancel-booking/<int:booking_id>/', views.employee_cancel_booking, name='employee_cancel_booking'),
+    path('booking/<int:booking_id>/change-status/', views.employee_change_booking_status, name='employee_change_booking_status'),
+    path('booking/<int:booking_id>/delete/', views.delete_booking, name='delete_booking'),
+    path('change-veterinarian/<int:booking_id>/', views.change_veterinarian, name='employee_change_veterinarian'),
 
 
   #BookingBooking

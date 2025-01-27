@@ -45,15 +45,18 @@ class LichTrinhBSForm(forms.ModelForm):
         }
 
 class BookingForm(forms.ModelForm):
+    veterinarian = forms.ModelChoiceField(queryset=Veterinarian.objects.all(), required=False, empty_label="Chọn bác sĩ")
     class Meta:
         model = Booking
         fields = ['customer', 'pet', 'veterinarian', 'appointment_date', 'fee']
         widgets = {
             'appointment_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
-        
 
 class BookingManagementForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = ['status']
+        widgets = {
+            'status': forms.Select(choices=Booking.STATUS_CHOICES)
+        }
