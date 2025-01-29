@@ -10,7 +10,6 @@ class Booking(models.Model):
         ('Confirmed', 'Confirmed'),
         ('Cancelled', 'Cancelled'),
     ]
-
     customer = models.ForeignKey(Customer, related_name='bookings', on_delete=models.CASCADE)
     pet = models.ForeignKey(Pet, related_name='bookings', on_delete=models.CASCADE)
     veterinarian = models.ForeignKey(Veterinarian, related_name='bookings', on_delete=models.SET_NULL, blank=True, null=True)

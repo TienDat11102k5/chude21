@@ -270,8 +270,8 @@ def create_doctor_account(request):
     return render(request, 'QL_Bac_Si/tao-tai-khoan-bac-si.html', {'form': form})
 
 def delete_veterinarian(request, veterinarian_id):
-    employee = get_object_or_404(Employee, pk=veterinarian_id)
-    employee.delete()
+    veterinarian= get_object_or_404(Veterinarian, pk=veterinarian_id)
+    veterinarian.delete()
     return redirect('ds-bac-si') 
 # Quản lý bác sĩ
 
