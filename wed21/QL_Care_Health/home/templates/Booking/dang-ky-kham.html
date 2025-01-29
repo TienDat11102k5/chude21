@@ -1,4 +1,5 @@
 {% extends "master.html" %}
+
 {% block menu %}
   {% include 'menu-inner.html' %}
 {% endblock %}
@@ -23,6 +24,12 @@
         h1, h2 {
             margin-bottom: 30px;
             color: #343a40;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         form button {
             background-color: #007bff;
@@ -54,11 +61,13 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Đặt lịch khám</h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Đặt lịch</button>
-        </form>
+        <div class="form-container">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Đặt lịch</button>
+            </form>
+        </div>
 
         <h2 class="mt-5">Lịch đặt của bạn</h2>
         <div class="table-responsive">
@@ -66,8 +75,9 @@
                 <thead>
                     <tr>
                         <th>Thú cưng</th>
+                        <th>Bác sĩ</th> <!-- Di chuyển cột bác sĩ lên trước -->
                         <th>Ngày hẹn</th>
-                        <th>Trạng thái</th>
+                        <th>Trạng thái</th> <!-- Cột trạng thái -->
                         <th>Hành động</th>
                     </tr>
                 </thead>
@@ -75,6 +85,13 @@
                     {% for booking in bookings %}
                         <tr>
                             <td>{{ booking.pet.name }}</td>
+                            <td>
+                                {% if booking.veterinarian %}
+                                    {{ booking.veterinarian.name }} <!-- Hiển thị tên bác sĩ -->
+                                {% else %}
+                                    Chưa có bác sĩ
+                                {% endif %}
+                            </td>
                             <td>{{ booking.appointment_date }}</td>
                             <td>
                                 {% if booking.status %}
@@ -85,7 +102,6 @@
                             </td>
                             <td>
                                 {% if booking.status == 'Pending' %}
-                                    <!-- Chỉ khách hàng có thể hủy khi trạng thái là Pending -->
                                     <form action="{% url 'customer_cancel_booking' booking.id %}" method="POST" style="display:inline-block;">
                                         {% csrf_token %}
                                         <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('Bạn có chắc chắn muốn hủy lịch này?')">Hủy</button>

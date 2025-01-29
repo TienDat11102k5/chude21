@@ -37,7 +37,7 @@ urlpatterns = [
     path('booking/<int:booking_id>/change-status/', views.employee_change_booking_status, name='employee_change_booking_status'),
     path('booking/<int:booking_id>/delete/', views.delete_booking, name='delete_booking'),
     path('change-veterinarian/<int:booking_id>/', views.change_veterinarian, name='employee_change_veterinarian'),
-
+    path('cancel-booking/<int:booking_id>/', views.customer_cancel_booking, name='customer_cancel_booking'),
 
   #BookingBooking
 #-------------------------------------------------------------------------------------------------------------#
