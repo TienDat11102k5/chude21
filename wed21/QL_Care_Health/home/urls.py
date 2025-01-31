@@ -50,7 +50,9 @@ urlpatterns = [
     path('lich-su-kham.html', views.examination_history, name='lich_su_kham'),
     path('cap-nhat-thong-tin-chuong.html', views.cap_nhat_thong_tin_chuong_view, name='update_kennel'),
     path('danh-gia-kham/<int:record_id>.html', views.rating_view, name='danh_gia_kham'),
-   
+    path('danh-gia-chua-danh-gia.html', views.rating_pending_view, name='danh_gia_chua_danh_gia'),
+
+    
     path('checkin-thu-cung.html', views.checkin_thu_cung_view, name='checkin_pet'),
     path('theo-doi-nhap-vien.html', views.theo_doi_nhap_vien_view, name='track_admission'),
    

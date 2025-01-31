@@ -1,0 +1,43 @@
+{% extends "master.html" %}
+
+{% block menu %}
+    {% include 'menu-inner.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Danh Sách Hồ Sơ Chưa Được Đánh Giá</h2>
+
+    {% if not records %}
+    <div class="alert alert-info" role="alert">
+        Hiện tại không có hồ sơ nào cần đánh giá. Bạn có thể xem lại lịch sử khám của mình.
+        <a href="{% url 'lich_su_kham' %}" class="btn btn-primary btn-sm ml-2">Xem Lịch Sử Khám</a>
+    </div>
+    {% else %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Thú Cưng</th>
+                    <th>Bác Sĩ</th>
+                    <th>Ngày Khám</th>
+                    <th>Đánh Giá</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td>{{ record.pet.name }}</td>
+                    <td>{{ record.veterinarian.name }}</td>
+                    <td>{{ record.date|date:"Y-m-d H:i" }}</td>
+                    <td>
+                        <a href="{% url 'danh_gia_kham' record.record_id %}" class="btn btn-warning btn-sm">Đánh Giá</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

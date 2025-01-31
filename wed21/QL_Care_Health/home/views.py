@@ -286,12 +286,10 @@ def ghi_nhan_kham_view(request):
         form = MedicalRecordForm()
     return render(request, 'Ho_So_Kham/ghi-nhan-kham.html', {'form': form})
 
-# View để hiển thị lịch sử khám
 def examination_history(request):
     records = MedicalRecord.objects.all().order_by('-date')
     return render(request, 'Ho_So_Kham/lich-su-kham.html', {'records': records})
 
-# View để cập nhật thông tin chuồng
 def cap_nhat_thong_tin_chuong_view(request):
     if request.method == "POST":
         record_id = request.POST.get('record_id')
@@ -303,13 +301,10 @@ def cap_nhat_thong_tin_chuong_view(request):
             record.save()
         except MedicalRecord.DoesNotExist:
             pass
-
         return redirect('lich_su_kham')
-
     records = MedicalRecord.objects.filter(stay_required=True)
     return render(request, 'Ho_So_Kham/cap-nhat-thong-tin-chuong.html', {'records': records})
 
-# View để đánh giá hồ sơ khám
 def rating_view(request, record_id):
     record = get_object_or_404(MedicalRecord, pk=record_id)
     
@@ -323,10 +318,9 @@ def rating_view(request, record_id):
 
     return render(request, 'Ho_So_Kham/danh-gia-kham.html', {'form': form, 'record': record})
 
-
-
-
-
+def rating_pending_view(request):
+    records = MedicalRecord.objects.filter(rating__isnull=True).order_by('-date')
+    return render(request, 'Ho_So_Kham/danh-gia-chua-danh-gia.html', {'records': records})
 
 
 
