@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'Pet_MNG',
     'Booking_MNG',
     'LichTrinhBS_MNG',
+    'MedicalRecord_MNG',
+    'ExaminationRecord_MNG',
     'home'
    
 ]

@@ -1,0 +1,45 @@
+{% extends "master.html" %}
+
+{% block menu %}
+    {% include 'menu-inner.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Lịch Sử Khám</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Thú Cưng</th>
+                    <th>Bác Sĩ</th>
+                    <th>Chẩn Đoán</th>
+                    <th>Điều Trị</th>
+                    <th>Ngày Khám</th>
+                    <th>Lưu Chuồng</th>
+                    <th>Đánh Giá</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td>{{ record.pet.name }}</td>
+                    <td>{{ record.veterinarian.name }}</td>
+                    <td>{{ record.diagnosis }}</td>
+                    <td>{{ record.treatment }}</td>
+                    <td>{{ record.date|date:"Y-m-d H:i" }}</td>
+                    <td class="text-center">
+                        {% if record.stay_required %}
+                            <span class="badge bg-success">✔ Có</span>
+                        {% else %}
+                            <span class="badge bg-danger">✘ Không</span>
+                        {% endif %}
+                    </td>
+                  
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

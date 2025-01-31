@@ -5,6 +5,8 @@ from Employee_MNG.models import Employee
 from Veterinarian_MNG.models import Veterinarian
 from LichTrinhBS_MNG.models import LichTrinhBS
 from Booking_MNG.models import Booking
+from MedicalRecord_MNG.models import MedicalRecord
+from ExaminationRecord_MNG.models import ExaminationRecord
 class PetForm(forms.ModelForm):
     class Meta:
         model = Pet
@@ -60,3 +62,15 @@ class BookingManagementForm(forms.ModelForm):
         widgets = {
             'status': forms.Select(choices=Booking.STATUS_CHOICES)
         }
+
+class MedicalRecordForm(forms.ModelForm):
+    class Meta:
+        model = MedicalRecord
+        fields = ['customer', 'pet', 'veterinarian', 'diagnosis', 'treatment', 'stay_required']
+
+
+
+class ExaminationRecordForm(forms.ModelForm):
+    class Meta:
+        model = ExaminationRecord
+        fields = ['rating', 'comment']

@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from home.forms import Pet,PetForm,Customer,CustomerForm,Employee,EmployeeForm
-from home.forms import Veterinarian, VeterinarianForm,LichTrinhBS,LichTrinhBSForm,Booking,BookingForm
+from home.forms import Pet,PetForm,Customer,CustomerForm,Employee,EmployeeForm,ExaminationRecordForm,ExaminationRecord
+from home.forms import Veterinarian, VeterinarianForm,LichTrinhBS,LichTrinhBSForm,Booking,BookingForm,MedicalRecord,MedicalRecordForm
 from django.http import HttpResponseForbidden
 from django.template import loader
 from django.contrib import messages
@@ -38,8 +38,7 @@ def success(request):
     return render(request, 'QL_DS_THU_CUNG/success.html', {'form': form, 'customers': customers})
 #Quản lý thú cưng
 
-def examination_history(request):
-    return render(request, 'lich-su-kham.html')
+
 
 
 #Booking
@@ -143,7 +142,6 @@ def delete_booking(request, booking_id):
     booking.delete()
     messages.success(request, f'Lịch đặt ID {booking_id} đã được xóa thành công.')
     return redirect('quan_ly_booking')
-
 #Booking
 
 
@@ -156,12 +154,12 @@ def theo_doi_nhap_vien_view(request):
 
 def quan_ly_chuong_view(request):
     return render(request, 'quan-ly-chuong.html')
-def cap_nhat_thong_tin_chuong_view(request):
-    return render(request, 'cap-nhat-thong-tin-chuong.html')
+
 def sap_lich_kham_view(request):
     return render(request, 'sap-lich-kham.html')
 def sap_lich_nhap_vien_view(request):
     return render(request, 'sap-lich-nhap-vien.html')
+
 
 #Đăng ký lịch trình bác sĩ
 def lichDK_list(request):
@@ -274,6 +272,60 @@ def delete_veterinarian(request, veterinarian_id):
     veterinarian.delete()
     return redirect('ds-bac-si') 
 # Quản lý bác sĩ
+
+
+
+
+def ghi_nhan_kham_view(request):
+    if request.method == "POST":
+        form = MedicalRecordForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lich_su_kham')
+    else:
+        form = MedicalRecordForm()
+    return render(request, 'Ho_So_Kham/ghi-nhan-kham.html', {'form': form})
+
+def examination_history(request):
+    records = MedicalRecord.objects.all().order_by('-date')
+    return render(request, 'Ho_So_Kham/lich-su-kham.html', {'records': records})
+
+def cap_nhat_thong_tin_chuong_view(request):
+    if request.method == "POST":
+        record_id = request.POST.get('record_id')
+        stay_required = request.POST.get('stay_required') == 'on'
+
+        try:
+            record = MedicalRecord.objects.get(pk=record_id)
+            record.stay_required = stay_required
+            record.save()
+        except MedicalRecord.DoesNotExist:
+            pass
+
+        return redirect('lich_su_kham')
+
+    records = MedicalRecord.objects.filter(stay_required=True)
+    return render(request, 'Ho_So_Kham/cap-nhat-thong-tin-chuong.html', {'records': records})
+
+def danh_gia_kham_view(request, record_id):
+    record = get_object_or_404(ExaminationRecord, id=record_id)
+    if request.method == 'POST':
+        form = ExaminationRecordForm(request.POST)
+        if form.is_valid():
+            record.rating = form.cleaned_data['rating']
+            record.comment = form.cleaned_data['comment']
+            record.save()
+            return redirect('lich_su_kham')
+    else:
+        form = ExaminationRecordForm()
+    return render(request, 'Ho_So_Kham/danh-gia-kham.html', {'form': form, 'record': record})
+
+
+
+
+
+
+
 
 
 def system_configuration(request):

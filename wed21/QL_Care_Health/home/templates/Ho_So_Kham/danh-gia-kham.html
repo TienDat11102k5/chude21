@@ -1,0 +1,20 @@
+{% extends "master.html" %}
+
+{% block menu %}
+    {% include 'menu-inner.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Đánh Giá Lần Khám</h2>
+    <div class="card shadow p-4">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Gửi Đánh Giá</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
