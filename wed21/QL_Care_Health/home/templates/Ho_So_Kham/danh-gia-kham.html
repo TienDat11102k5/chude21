@@ -6,12 +6,17 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="text-center mb-4">Đánh Giá Lần Khám</h2>
+    <h2 class="text-center mb-4">Đánh Giá Khám</h2>
     <div class="card shadow p-4">
         <form method="post">
             {% csrf_token %}
             <div class="mb-3">
-                {{ form.as_p }}
+                <label for="rating" class="form-label">Điểm Đánh Giá</label>
+                {{ form.rating }}
+            </div>
+            <div class="mb-3">
+                <label for="feedback" class="form-label">Ý Kiến Phản Hồi</label>
+                {{ form.feedback }}
             </div>
             <button type="submit" class="btn btn-primary w-100">Gửi Đánh Giá</button>
         </form>

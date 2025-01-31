@@ -35,7 +35,16 @@
                             <span class="badge bg-danger">✘ Không</span>
                         {% endif %}
                     </td>
-                  
+                    <td class="text-center">
+                        {% if record.rating %}
+                            <span class="badge bg-info">{{ record.rating }}</span>
+                        {% else %}
+                            <span class="badge bg-warning">Chưa đánh giá</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'danh_gia_kham' record.record_id %}" class="btn btn-secondary btn-sm">Đánh giá</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

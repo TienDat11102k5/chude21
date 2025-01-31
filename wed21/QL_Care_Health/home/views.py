@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from home.forms import Pet,PetForm,Customer,CustomerForm,Employee,EmployeeForm,ExaminationRecordForm,ExaminationRecord
-from home.forms import Veterinarian, VeterinarianForm,LichTrinhBS,LichTrinhBSForm,Booking,BookingForm,MedicalRecord,MedicalRecordForm
+from home.forms import Pet,PetForm,Customer,CustomerForm,Employee,EmployeeForm
+from home.forms import Veterinarian, VeterinarianForm,LichTrinhBS,LichTrinhBSForm,Booking,BookingForm,MedicalRecord,MedicalRecordForm,MedicalRecordRatingForm
 from django.http import HttpResponseForbidden
 from django.template import loader
 from django.contrib import messages
@@ -286,10 +286,12 @@ def ghi_nhan_kham_view(request):
         form = MedicalRecordForm()
     return render(request, 'Ho_So_Kham/ghi-nhan-kham.html', {'form': form})
 
+# View để hiển thị lịch sử khám
 def examination_history(request):
     records = MedicalRecord.objects.all().order_by('-date')
     return render(request, 'Ho_So_Kham/lich-su-kham.html', {'records': records})
 
+# View để cập nhật thông tin chuồng
 def cap_nhat_thong_tin_chuong_view(request):
     if request.method == "POST":
         record_id = request.POST.get('record_id')
@@ -307,19 +309,19 @@ def cap_nhat_thong_tin_chuong_view(request):
     records = MedicalRecord.objects.filter(stay_required=True)
     return render(request, 'Ho_So_Kham/cap-nhat-thong-tin-chuong.html', {'records': records})
 
-def danh_gia_kham_view(request, record_id):
-    record = get_object_or_404(ExaminationRecord, id=record_id)
+# View để đánh giá hồ sơ khám
+def rating_view(request, record_id):
+    record = get_object_or_404(MedicalRecord, pk=record_id)
+    
     if request.method == 'POST':
-        form = ExaminationRecordForm(request.POST)
+        form = MedicalRecordRatingForm(request.POST, instance=record)
         if form.is_valid():
-            record.rating = form.cleaned_data['rating']
-            record.comment = form.cleaned_data['comment']
-            record.save()
+            form.save()
             return redirect('lich_su_kham')
     else:
-        form = ExaminationRecordForm()
-    return render(request, 'Ho_So_Kham/danh-gia-kham.html', {'form': form, 'record': record})
+        form = MedicalRecordRatingForm(instance=record)
 
+    return render(request, 'Ho_So_Kham/danh-gia-kham.html', {'form': form, 'record': record})
 
 
 

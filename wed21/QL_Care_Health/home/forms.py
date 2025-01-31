@@ -6,7 +6,6 @@ from Veterinarian_MNG.models import Veterinarian
 from LichTrinhBS_MNG.models import LichTrinhBS
 from Booking_MNG.models import Booking
 from MedicalRecord_MNG.models import MedicalRecord
-from ExaminationRecord_MNG.models import ExaminationRecord
 class PetForm(forms.ModelForm):
     class Meta:
         model = Pet
@@ -69,8 +68,12 @@ class MedicalRecordForm(forms.ModelForm):
         fields = ['customer', 'pet', 'veterinarian', 'diagnosis', 'treatment', 'stay_required']
 
 
-
-class ExaminationRecordForm(forms.ModelForm):
+class MedicalRecordRatingForm(forms.ModelForm):
     class Meta:
-        model = ExaminationRecord
-        fields = ['rating', 'comment']
+        model = MedicalRecord
+        fields = ['rating', 'feedback']
+        widgets = {
+            'feedback': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Nhập ý kiến của bạn'}),
+        }
+
+
