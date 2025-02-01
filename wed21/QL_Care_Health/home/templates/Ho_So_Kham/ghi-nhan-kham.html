@@ -5,122 +5,114 @@
 {% endblock %}
 
 {% block content %}
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ghi Nhận Hồ Sơ Khám</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            margin-bottom: 30px;
-            color: #343a40;
-        }
-        .pet-name {
-            font-size: 1.2rem;
-            color: #007bff;
-        }
-        .btn-danger {
-            background-color: #dc3545;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        .btn-danger:hover {
-            background-color: #c82333;
-        }
-        .btn-success {
-            background-color: #28a745;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        .btn-success:hover {
-            background-color: #218838;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-        .table th, .table td {
-            vertical-align: middle;
-            text-align: center;
-        }
-        .table-striped tbody tr:nth-child(odd) {
-            background-color: #f2f2f2;
-        }
-        .form-control {
-            width: 100%;
-            box-sizing: border-box;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-            padding: 10px;
-        }
-        .form-control:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
-        }
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        .form-group div {
-            width: 100%;
-        }
-        .card {
-            margin-bottom: 30px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container mt-5">
-        <h2 class="text-center">Ghi Nhận Hồ Sơ Khám</h2>
-        <div class="card shadow p-4">
-            <form method="post">
-                {% csrf_token %}
-                <div class="mb-3">
-                    {% for field in form %}
-                        <div class="form-group">
-                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                            <div>
-                                {{ field }}
-                            </div>
+<div class="container mt-5">
+    <h2 class="text-center mb-4 text-primary">Ghi Nhận Hồ Sơ Khám</h2>
+    <div class="card shadow-lg p-5 rounded-4 border-light">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-4">
+                {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}" class="font-weight-bold">{{ field.label }}</label>
+                        <div>
+                            {{ field }}
                         </div>
-                    {% endfor %}
-                </div>
-                <div class="row mt-3 d-flex justify-content-end">
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-primary">Lưu Hồ Sơ</button>
                     </div>
-                    <div class="col-auto">
-                    </div>
+                {% endfor %}
+            </div>
+            <div class="row mt-3 d-flex justify-content-end">
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill shadow-sm">Lưu Hồ Sơ</button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+</div>
+
+<style>
+    .btn-primary {
+        background-color: #0069d9;
+        border-color: #0062cc;
+        font-size: 1.2rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+    .card {
+        background-color: #ffffff;
+        border-radius: 1.25rem;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        border: none;
+    }
+
+    .form-label {
+        font-size: 1.1rem;
+        color: #34495e;
+        font-weight: 500;
+    }
+
+    .form-control, .form-control:focus {
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        padding: 15px;
+        font-size: 1rem;
+        box-shadow: none;
+    }
+
+    .form-control:focus {
+        border-color: #0069d9;
+        box-shadow: 0 0 5px rgba(0, 105, 217, 0.5);
+    }
+
+    .container {
+        background-color: #f4f6f9;
+        padding: 50px 30px;
+        border-radius: 1.5rem;
+    }
+
+    .shadow-lg {
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .rounded-4 {
+        border-radius: 1.5rem;
+    }
+
+    .rounded-pill {
+        border-radius: 50px;
+    }
+
+    .mb-4 {
+        margin-bottom: 1.5rem !important;
+    }
+
+    .w-100 {
+        width: 100%;
+    }
+    .text-primary {
+        color: #007bff !important;
+    }
+
+    .text-muted {
+        color: #6c757d !important;
+    }
+
+    .fw-bold {
+        font-weight: 700 !important;
+    }
+
+    .fw-medium {
+        font-weight: 500 !important;
+    }
+</style>
 {% endblock %}
 
 {% block footer %}
   {% include 'footer.html' %}
 {% endblock %}
+

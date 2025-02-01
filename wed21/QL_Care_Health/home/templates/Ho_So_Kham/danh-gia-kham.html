@@ -5,21 +5,116 @@
 {% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2 class="text-center mb-4">Đánh Giá Khám</h2>
-    <div class="card shadow p-4">
+<div class="container mt-5">
+    <h2 class="text-center mb-4 text-primary">Đánh Giá Khám</h2>
+    <div class="card shadow-lg p-5 rounded-4 border-light">
         <form method="post">
             {% csrf_token %}
-            <div class="mb-3">
-                <label for="rating" class="form-label">Điểm Đánh Giá</label>
+            <!-- Rating -->
+            <div class="mb-4">
+                <label for="rating" class="form-label fw-bold text-muted">Điểm Đánh Giá</label>
                 {{ form.rating }}
             </div>
-            <div class="mb-3">
-                <label for="feedback" class="form-label">Ý Kiến Phản Hồi</label>
+            <!-- Feedback -->
+            <div class="mb-4">
+                <label for="feedback" class="form-label fw-bold text-muted">Ý Kiến Phản Hồi</label>
                 {{ form.feedback }}
             </div>
-            <button type="submit" class="btn btn-primary w-100">Gửi Đánh Giá</button>
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill shadow-sm">Gửi Đánh Giá</button>
         </form>
     </div>
 </div>
+
+<style>
+    /* Button Styling */
+    .btn-primary {
+        background-color: #0069d9;
+        border-color: #0062cc;
+        font-size: 1.2rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+    /* Card and Form Styles */
+    .card {
+        background-color: #ffffff;
+        border-radius: 1.25rem;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        border: none;
+    }
+
+    .card-header {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .form-label {
+        font-size: 1.1rem;
+        color: #34495e;
+        font-weight: 500;
+    }
+
+    .form-control, .form-control:focus {
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        padding: 15px;
+        font-size: 1rem;
+        box-shadow: none;
+    }
+
+    .form-control:focus {
+        border-color: #0069d9;
+        box-shadow: 0 0 5px rgba(0, 105, 217, 0.5);
+    }
+
+    /* Container Styling */
+    .container {
+        background-color: #f4f6f9;
+        padding: 50px 30px;
+        border-radius: 1.5rem;
+    }
+
+    .shadow-lg {
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .rounded-4 {
+        border-radius: 1.5rem;
+    }
+
+    .rounded-pill {
+        border-radius: 50px;
+    }
+
+    /* Additional Styles for Enhanced UX */
+    .mb-4 {
+        margin-bottom: 1.5rem !important;
+    }
+
+    .w-100 {
+        width: 100%;
+    }
+    .text-primary {
+        color: #007bff !important;
+    }
+
+    .text-muted {
+        color: #6c757d !important;
+    }
+
+    .fw-bold {
+        font-weight: 700 !important;
+    }
+
+    .fw-medium {
+        font-weight: 500 !important;
+    }
+</style>
 {% endblock %}
