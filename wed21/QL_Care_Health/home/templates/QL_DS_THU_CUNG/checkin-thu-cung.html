@@ -1,0 +1,107 @@
+{% extends "master.html" %}
+
+{% block menu %}
+  {% include 'menu-inner.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h2 class="text-primary fw-bold">Thêm Thông Tin Thú Cưng</h2>
+        <p class="text-muted">Điền thông tin bên dưới để thêm thú cưng mới vào hệ thống.</p>
+    </div>
+
+    <form method="post" class="border rounded-3 shadow-lg p-4 bg-white">
+        {% csrf_token %}
+        
+        <!-- Khách Hàng -->
+        <div class="mb-4">
+            <label for="{{ form.customer.id_for_label }}" class="form-label fw-bold text-secondary">{{ form.customer.label }}</label>
+            <div class="input-group shadow-sm">
+                {{ form.customer }}
+            </div>
+        </div>
+
+        <!-- Tên Thú Cưng -->
+        <div class="mb-4">
+            <label for="{{ form.name.id_for_label }}" class="form-label fw-bold text-secondary">{{ form.name.label }}</label>
+            <div class="input-group shadow-sm">
+                {{ form.name }}
+            </div>
+        </div>
+
+        <!-- Loại Thú Cưng -->
+        <div class="mb-4">
+            <label for="{{ form.species.id_for_label }}" class="form-label fw-bold text-secondary">{{ form.species.label }}</label>
+            <div class="input-group shadow-sm">
+                {{ form.species }}
+            </div>
+        </div>
+
+        <!-- Tuổi -->
+        <div class="mb-4">
+            <label for="{{ form.age.id_for_label }}" class="form-label fw-bold text-secondary">{{ form.age.label }}</label>
+            <div class="input-group shadow-sm">
+                {{ form.age }}
+            </div>
+        </div>
+
+        <!-- Lịch Sử Y Tế -->
+        <div class="mb-4">
+            <label for="{{ form.medical_history.id_for_label }}" class="form-label fw-bold text-secondary">{{ form.medical_history.label }}</label>
+            <div class="input-group shadow-sm">
+                {{ form.medical_history }}
+            </div>
+        </div>
+
+        <!-- Nút lưu thông tin -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success px-4 py-2 rounded-3 shadow-sm btn-hover">Lưu Thông Tin</button>
+            <a href="{% url 'customer_list' %}" class="btn btn-outline-secondary px-4 py-2 rounded-3 shadow-sm btn-hover">Quay Lại</a>
+        </div>
+    </form>
+</div>
+
+<style>
+    .input-group input,
+    .input-group select,
+    .input-group textarea {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        width: 100%; /* Làm cho các ô nhập liệu dài ra */
+    }
+
+    .btn-hover:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .shadow-sm {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .rounded-3 {
+        border-radius: 1rem;
+    }
+
+    .form-label {
+        font-size: 1.1rem;
+    }
+
+    .btn-outline-secondary {
+        border-color: #6c757d;
+        color: #6c757d;
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .container {
+        background-color: #f9f9f9;
+        padding: 30px;
+        border-radius: 8px;
+    }
+</style>
+{% endblock %}

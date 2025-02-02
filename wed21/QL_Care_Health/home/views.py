@@ -13,17 +13,21 @@ def index(request):
 #Quản lý thú cưng
 def customer_list(request):
     return render(request, 'customer_list.html')
+
 def customer_list(request):
     customers = Customer.objects.all()
     return render(request, 'QL_DS_THU_CUNG/customer_list.html', {'customers': customers})
+
 def pet_management(request, customer_id):
     customer = get_object_or_404(Customer, customer_id=customer_id)
     pets = Pet.objects.filter(customer_id=customer_id) 
     return render(request, 'QL_DS_THU_CUNG/quan-ly-thu-cung.html', {'customer': customer, 'pets': pets})
+
 def delete_pet(request, pet_id):
     pet = get_object_or_404(Pet, pet_id=pet_id)
     pet.delete()
     return redirect('pet_management', customer_id=pet.customer.customer_id)
+
 def success(request):
     if request.method == 'POST':
         form = PetForm(request.POST)
@@ -36,6 +40,19 @@ def success(request):
         form = PetForm()
     customers = Customer.objects.all()
     return render(request, 'QL_DS_THU_CUNG/success.html', {'form': form, 'customers': customers})
+
+def checkin_thu_cung_view(request):
+    if request.method == 'POST':
+        form = PetForm(request.POST)
+        if form.is_valid():
+            new_pet = form.save(commit=False)
+            new_pet.customer = form.cleaned_data.get('customer')
+            new_pet.save()
+            return redirect('pet_management', customer_id=new_pet.customer.customer_id) 
+    else:
+        form = PetForm()
+    customers = Customer.objects.all()
+    return render(request, 'QL_DS_THU_CUNG/checkin-thu-cung.html', {'form': form, 'customers': customers})
 #Quản lý thú cưng
 
 
@@ -145,8 +162,14 @@ def delete_booking(request, booking_id):
 #Booking
 
 
-def checkin_thu_cung_view(request):
-    return render(request, 'checkin-thu-cung.html')
+
+
+
+
+
+
+
+
 def danh_gia_kham_view(request):
     return render(request, 'danh-gia-kham.html')
 def theo_doi_nhap_vien_view(request):

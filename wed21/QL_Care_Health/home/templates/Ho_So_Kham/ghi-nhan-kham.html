@@ -6,108 +6,72 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-center mb-4 text-primary">Ghi Nhận Hồ Sơ Khám</h2>
-    <div class="card shadow-lg p-5 rounded-4 border-light">
-        <form method="post">
-            {% csrf_token %}
-            <div class="mb-4">
-                {% for field in form %}
-                    <div class="form-group">
-                        <label for="{{ field.id_for_label }}" class="font-weight-bold">{{ field.label }}</label>
-                        <div>
-                            {{ field }}
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-            <div class="row mt-3 d-flex justify-content-end">
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill shadow-sm">Lưu Hồ Sơ</button>
-                </div>
-            </div>
-        </form>
+    <div class="text-center mb-4">
+        <h2 class="text-primary fw-bold">Ghi Nhận Hồ Sơ Khám</h2>
+        <p class="text-muted">Điền thông tin bên dưới để ghi nhận hồ sơ khám mới.</p>
     </div>
+
+    <form method="post" class="border rounded-3 shadow-lg p-4 bg-white">
+        {% csrf_token %}
+        
+        <!-- Các trường thông tin -->
+        <div class="mb-4">
+            {% for field in form %}
+                <label for="{{ field.id_for_label }}" class="form-label fw-bold text-secondary">{{ field.label }}</label>
+                <div class="input-group shadow-sm mb-3">
+                    {{ field }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Nút lưu thông tin -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success px-4 py-2 rounded-3 shadow-sm btn-hover">Lưu Hồ Sơ</button>
+            <a href="{% url 'customer_list' %}" class="btn btn-outline-secondary px-4 py-2 rounded-3 shadow-sm btn-hover">Quay Lại</a>
+        </div>
+    </form>
 </div>
 
 <style>
-    .btn-primary {
-        background-color: #0069d9;
-        border-color: #0062cc;
-        font-size: 1.2rem;
-        font-weight: 600;
-        transition: all 0.3s ease;
+    .input-group input,
+    .input-group select,
+    .input-group textarea {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        width: 100%; 
     }
 
-    .btn-primary:hover {
-        background-color: #0056b3;
-        border-color: #004085;
+    .btn-hover:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-    .card {
-        background-color: #ffffff;
-        border-radius: 1.25rem;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        border: none;
+    .shadow-sm {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .rounded-3 {
+        border-radius: 1rem;
     }
 
     .form-label {
         font-size: 1.1rem;
-        color: #34495e;
-        font-weight: 500;
     }
 
-    .form-control, .form-control:focus {
-        border-radius: 10px;
-        border: 1px solid #ddd;
-        padding: 15px;
-        font-size: 1rem;
-        box-shadow: none;
+    .btn-outline-secondary {
+        border-color: #6c757d;
+        color: #6c757d;
     }
 
-    .form-control:focus {
-        border-color: #0069d9;
-        box-shadow: 0 0 5px rgba(0, 105, 217, 0.5);
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        color: white;
     }
 
     .container {
-        background-color: #f4f6f9;
-        padding: 50px 30px;
-        border-radius: 1.5rem;
-    }
-
-    .shadow-lg {
-        box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
-    }
-
-    .rounded-4 {
-        border-radius: 1.5rem;
-    }
-
-    .rounded-pill {
-        border-radius: 50px;
-    }
-
-    .mb-4 {
-        margin-bottom: 1.5rem !important;
-    }
-
-    .w-100 {
-        width: 100%;
-    }
-    .text-primary {
-        color: #007bff !important;
-    }
-
-    .text-muted {
-        color: #6c757d !important;
-    }
-
-    .fw-bold {
-        font-weight: 700 !important;
-    }
-
-    .fw-medium {
-        font-weight: 500 !important;
+        background-color: #f9f9f9;
+        padding: 30px;
+        border-radius: 8px;
     }
 </style>
 {% endblock %}
@@ -115,4 +79,3 @@
 {% block footer %}
   {% include 'footer.html' %}
 {% endblock %}
-
