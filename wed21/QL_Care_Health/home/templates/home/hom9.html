@@ -1,13 +1,45 @@
-{%extends "master.html"%}
+{% extends "master.html" %}
+{% load static %}
+{% block menu %}
+    {% include 'menu-inner.html' %}
+{% endblock %}
+ 
+{% block content %}
+    <div class="container">
+        <!-- Phần giới thiệu -->
+        <section class="hero-section text-center">
+            <h1>Chào mừng bạn đến với Hệ Thống Quản Lý</h1>
+            <p>Chúng tôi cung cấp giải pháp tối ưu cho việc quản lý và vận hành.</p>
+            <img src="{% static 'home/assets/img/hinhanh/1.jpg' %}" alt="Hình ảnh hệ thống" class="hero-image">
+        </section>
 
-{%block menu%}
- {% include 'menu-inner.html' %}
-{%endblock%}
+        <!-- Phần tính năng -->
+        <section class="features-section">
+            <h2 class="text-center">Tính năng nổi bật</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <img src="{% static 'home/assets/img/hinhanh/2.jpg' %}" alt="Quản lý dữ liệu">
+                    <h3>📊 Quản lý dữ liệu</h3>
+                    <p>Dễ dàng quản lý và theo dõi dữ liệu trong hệ thống.</p>
+                </div>
+                <div class="feature">
+                    <img src="{% static 'home/assets/img/hinhanh/3.jpg' %}" alt="Bảo mật cao">
+                    <h3>🔒 Bảo mật cao</h3>
+                    <p>Đảm bảo an toàn thông tin với hệ thống bảo mật tiên tiến.</p>
+                </div>
+                <div class="feature">
+                    <img src="{% static 'home/assets/img/hinhanh/4.jpg' %}" alt="Giao diện thân thiện">
+                    <h3>🖥️ Giao diện thân thiện</h3>
+                    <p>Thiết kế dễ sử dụng, phù hợp với mọi đối tượng người dùng.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+{% block navbar %}
+    {% include 'Nav-bar.html' %}
+{% endblock %}
 
-{%block navbar%}
- {% include 'Nav-bar.html' %}
-{%endblock%}
-
-{%block footer%}
- {% include 'footer.html' %}
-{%endblock%}
+{% block footer %}
+    {% include 'footer.html' %}
+{% endblock %}

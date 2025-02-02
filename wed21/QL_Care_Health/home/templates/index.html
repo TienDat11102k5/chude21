@@ -1,90 +1,44 @@
 {% extends "master.html" %}
-
+{% load static %}
 {% block menu %}
     {% include 'menu-inner.html' %}
 {% endblock %}
-
 {% block navbar %}
-    {% include 'Nav-bar.html' %}
-{% endblock %} 
-
-{% block content %}
-<div class="hero" style="background-image: url('hero-image.jpg'); height: 400px; background-size: cover; display: flex; align-items: center; justify-content: center; color: white; text-align: center;">
-    <h1>Chăm Sóc Thú Cưng Chuyên Nghiệp</h1>
-    <p>Chúng tôi cung cấp dịch vụ khám chữa bệnh cho thú cưng của bạn.</p>
-    <button class="btn btn-primary" onclick="location.href='#services'">Đặt Lịch Khám</button>
-</div>
-
-<div class="about py-5">
-    <div class="container">
-        <h2 class="text-center">Giới Thiệu Về Phòng Khám</h2>
-        <p class="text-center">Chúng tôi là một phòng khám thú y chuyên nghiệp với đội ngũ bác sĩ giàu kinh nghiệm, sẵn sàng chăm sóc sức khỏe cho thú cưng của bạn.</p>
-    </div>
-</div>
-
-<div class="services py-5" id="services">
-    <div class="container">
-        <h2 class="text-center">Dịch Vụ Của Chúng Tôi</h2>
-        <div class="row">
-            <div class="col-md-4 text-center">
-                <div class="service-card">
-                    <img src="vet-checkup.jpg" alt="Khám bệnh" class="img-fluid">
-                    <h3>Khám Bệnh</h3>
-                    <p>Khám sức khỏe định kỳ và phát hiện sớm các vấn đề sức khỏe.</p>
-                </div>
-            </div>
-            <div class="col-md-4 text-center">
-                <div class="service-card">
-                    <img src="vaccination.jpg" alt="Tiêm phòng" class="img-fluid">
-                    <h3>Tiêm Phòng</h3>
-                    <p>Tiêm phòng đầy đủ để bảo vệ thú cưng khỏi các bệnh truyền nhiễm.</p>
-                </div>
-            </div>
-            <div class="col-md-4 text-center">
-                <div class="service-card">
-                    <img src="surgery.jpg" alt="Phẫu thuật" class="img-fluid">
-                    <h3>Phẫu Thuật</h3>
-                    <p>Cung cấp dịch vụ phẫu thuật an toàn và hiệu quả cho thú cưng.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="appointment py-5 bg-light">
-    <div class="container text-center">
-        <h2>Đặt Lịch Khám Ngay</h2>
-        <p>Điền thông tin dưới đây để đặt lịch khám cho thú cưng của bạn.</p>
-        <form>
-            <input type="text" class="form-control mb-2" placeholder="Nhập tên của bạn" required>
-            <input type="email" class="form-control mb-2" placeholder="Nhập email của bạn" required>
-            <input type="text" class="form-control mb-2" placeholder="Nhập tên thú cưng" required>
-            <button class="btn btn-success">Gửi Đặt Lịch</button>
-        </form>
-    </div>
-</div>
-
-<div class="testimonials py-5">
-    <div class="container">
-        <h2 class="text-center">Khách Hàng Nói Gì Về Chúng Tôi</h2>
-        <div class="row">
-            <div class="col-md-6 text-center">
-                <p>"Dịch vụ tuyệt vời! Thú cưng của tôi đã hồi phục nhanh chóng!" - Khách hàng A</p>
-            </div>
-            <div class="col-md-6 text-center">
-                <p>"Đội ngũ bác sĩ rất chuyên nghiệp và tận tâm." - Khách hàng B</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="contact py-5 bg-light">
-    <div class="container text-center">
-        <h2>Thông Tin Liên Hệ</h2>
-        <p>Địa chỉ: 123 Đường ABC, Thành phố XYZ</p>
-        <p>Số điện thoại: (012) 345-6789</p>
-        <p>Email: contact@petclinic.com
+{% include 'Nav-bar.html' %}
 {% endblock %}
+{% block content %}
+    <div class="container">
+        <!-- Phần giới thiệu -->
+        <section class="hero-section text-center">
+            <h1>Chào mừng bạn đến với Hệ Thống Quản Lý</h1>
+            <p>Chúng tôi cung cấp giải pháp tối ưu cho việc quản lý và vận hành.</p>
+            <img src="{% static 'home/assets/img/hinhanh/1.jpg' %}" alt="Hình ảnh hệ thống" class="hero-image">
+        </section>
+
+        <!-- Phần tính năng -->
+        <section class="features-section">
+            <h2 class="text-center">Tính năng nổi bật</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <img src="{% static 'home/assets/img/hinhanh/2.jpg' %}" alt="Quản lý dữ liệu">
+                    <h3>📊 Quản lý dữ liệu</h3>
+                    <p>Dễ dàng quản lý và theo dõi dữ liệu trong hệ thống.</p>
+                </div>
+                <div class="feature">
+                    <img src="{% static 'home/assets/img/hinhanh/3.jpg' %}" alt="Bảo mật cao">
+                    <h3>🔒 Bảo mật cao</h3>
+                    <p>Đảm bảo an toàn thông tin với hệ thống bảo mật tiên tiến.</p>
+                </div>
+                <div class="feature">
+                    <img src="{% static 'home/assets/img/hinhanh/4.jpg' %}" alt="Giao diện thân thiện">
+                    <h3>🖥️ Giao diện thân thiện</h3>
+                    <p>Thiết kế dễ sử dụng, phù hợp với mọi đối tượng người dùng.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
 
 {% block footer %}
     {% include 'footer.html' %}
