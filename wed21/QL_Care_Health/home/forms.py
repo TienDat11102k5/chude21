@@ -6,6 +6,7 @@ from Veterinarian_MNG.models import Veterinarian
 from LichTrinhBS_MNG.models import LichTrinhBS
 from Booking_MNG.models import Booking
 from MedicalRecord_MNG.models import MedicalRecord
+from Kennel_MNG.models import KennelAssignment, Kennel
 class PetForm(forms.ModelForm):
     class Meta:
         model = Pet
@@ -76,4 +77,25 @@ class MedicalRecordRatingForm(forms.ModelForm):
             'feedback': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Nhập ý kiến của bạn'}),
         }
 
+class KennelForm(forms.ModelForm):
+    class Meta:
+        model = Kennel
+        fields = ['name', 'is_occupied']
+        labels = {
+            'name': 'Tên chuồng',
+            'is_occupied': 'Trạng thái'
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'is_occupied': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
 
+class AssignKennelForm(forms.ModelForm):
+    kennel = forms.ModelChoiceField(
+        queryset=Kennel.objects.filter(is_occupied=False),  
+        empty_label="Chọn chuồng",
+        label="Chọn chuồng"
+    )
+    class Meta:
+        model = KennelAssignment
+        fields = ['pet', 'kennel']

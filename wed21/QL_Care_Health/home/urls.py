@@ -48,15 +48,21 @@ urlpatterns = [
 
     path('ghi-nhan-kham.html', views.ghi_nhan_kham_view, name='record_exam'),
     path('lich-su-kham.html', views.examination_history, name='lich_su_kham'),
-    path('cap-nhat-thong-tin-chuong.html', views.cap_nhat_thong_tin_chuong_view, name='update_kennel'),
     path('danh-gia-kham/<int:record_id>.html', views.rating_view, name='danh_gia_kham'),
     path('danh-gia-chua-danh-gia.html', views.rating_pending_view, name='danh_gia_chua_danh_gia'),
+    path('danh-sach-cho-xep-chuong.html', views.danh_sach_cho_xep_chuong, name='danh_sach_cho_xep_chuong'),
+    path('gan-chuong/', views.assign_kennel, name='gan_chuong'),
+    path('quan-ly-chuong.html', views.quan_ly_chuong_view, name='quan-ly-chuong'),
+    path('xoa-chuong/<int:kennel_id>/', views.xoa_chuong, name='xoa_chuong'),
+    path('quan-ly-chuong.html', views.quan_ly_chuong_view, name='quan_ly_chuong'),
+    path('reset_kennel/<int:kennel_id>/', views.reset_kennel, name='reset_kennel'),
+
 
     
     path('checkin-thu-cung.html', views.checkin_thu_cung_view, name='checkin_pet'),
     path('theo-doi-nhap-vien.html', views.theo_doi_nhap_vien_view, name='track_admission'),
    
-    path('quan-ly-chuong.html', views.quan_ly_chuong_view, name='manage_kennel'),
+    
   
     path('sap-lich-kham.html', views.sap_lich_kham_view, name='schedule_exam'),
     path('sap-lich-nhap-vien.html', views.sap_lich_nhap_vien_view, name='schedule_admission'),

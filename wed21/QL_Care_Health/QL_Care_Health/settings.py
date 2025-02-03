@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'Booking_MNG',
     'LichTrinhBS_MNG',
     'MedicalRecord_MNG',
- 
+    'Kennel_MNG',
     'home'
    
 ]

@@ -1,0 +1,86 @@
+{% extends "master.html" %}
+
+{% block menu %}
+    {% include 'menu-inner.html' %}
+{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý chuồng</title>
+</head>
+<body class="container mt-4">
+
+    <h2>Quản lý Chuồng</h2>
+
+    <!-- Form nhập chuồng -->
+    <form method="post" class="mb-4">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_name" class="form-label">Tên chuồng:</label>
+            {{ form.name }}
+        </div>
+        <div class="mb-3 form-check">
+            {{ form.is_occupied }} <label class="form-check-label">Đang có thú cưng?</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Thêm chuồng</button>
+    </form>
+
+    <!-- Danh sách chuồng -->
+    <h3>Danh sách Chuồng</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Tên chuồng</th>
+                <th>Trạng thái</th>
+                <th>Thú cưng</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for info in kennel_info %}
+            <tr>
+                <td>{{ info.kennel.name }}</td>
+                <td>
+                    {% if info.kennel.is_occupied %}
+                        Đầy
+                    {% else %}
+                        Trống
+                    {% endif %}
+                </td>
+                <td>
+                    {% if info.pet_name %}
+                        {{ info.pet_name }}
+                    {% else %}
+                        Không có thú cưng
+                    {% endif %}
+                </td>
+                <td>
+                    {% if info.kennel.kennel_id %}
+                    <!-- Xóa chuồng -->
+                    <form method="post" action="{% url 'xoa_chuong' info.kennel.kennel_id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa chuồng này?')">Xóa</button>
+                    </form>
+                    <!-- Reset chuồng -->
+                    <form method="post" action="{% url 'reset_kennel' info.kennel.kennel_id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-warning" onclick="return confirm('Bạn có chắc chắn muốn làm trống chuồng này?')">Reset</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
+{% endblock %}
+
+{% block footer %}
+    {% include 'footer.html' %}
+{% endblock %}

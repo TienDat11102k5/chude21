@@ -1,0 +1,79 @@
+{% extends "master.html" %}
+{% block menu %}
+  {% include 'menu-inner.html' %}
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h2 class="text-primary fw-bold">Gán Chuồng Cho Thú Cưng</h2>
+        <p class="text-muted">Điền thông tin bên dưới để gán chuồng cho thú cưng.</p>
+    </div>
+
+    <form method="post" class="border rounded-3 shadow-lg p-4 bg-white">
+        {% csrf_token %}
+        
+        <!-- Các trường thông tin -->
+        <div class="mb-4">
+            {% for field in form %}
+                <label for="{{ field.id_for_label }}" class="form-label fw-bold text-secondary">{{ field.label }}</label>
+                <div class="input-group shadow-sm mb-3">
+                    {{ field }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Nút lưu thông tin -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success px-4 py-2 rounded-3 shadow-sm btn-hover">Gán Chuồng</button>
+            <a href="{% url 'customer_list' %}" class="btn btn-outline-secondary px-4 py-2 rounded-3 shadow-sm btn-hover">Quay Lại</a>
+        </div>
+    </form>
+</div>
+
+<style>
+    .input-group input,
+    .input-group select,
+    .input-group textarea {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        width: 100%; 
+    }
+
+    .btn-hover:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .shadow-sm {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .rounded-3 {
+        border-radius: 1rem;
+    }
+
+    .form-label {
+        font-size: 1.1rem;
+    }
+
+    .btn-outline-secondary {
+        border-color: #6c757d;
+        color: #6c757d;
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .container {
+        background-color: #f9f9f9;
+        padding: 30px;
+        border-radius: 8px;
+    }
+</style>
+{% endblock %}
+
+{% block footer %}
+  {% include 'footer.html' %}
+{% endblock %}

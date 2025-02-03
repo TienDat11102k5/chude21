@@ -1,9 +1,10 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from home.forms import Pet,PetForm,Customer,CustomerForm,Employee,EmployeeForm
+from home.forms import Pet,PetForm,Customer,CustomerForm,Employee,EmployeeForm,Kennel, KennelAssignment,AssignKennelForm,KennelForm
 from home.forms import Veterinarian, VeterinarianForm,LichTrinhBS,LichTrinhBSForm,Booking,BookingForm,MedicalRecord,MedicalRecordForm,MedicalRecordRatingForm
 from django.http import HttpResponseForbidden
 from django.template import loader
 from django.contrib import messages
+
 # Create your views here.
 def home(request):
     return render(request, 'home/hom9.html')
@@ -175,8 +176,7 @@ def danh_gia_kham_view(request):
 def theo_doi_nhap_vien_view(request):
     return render(request, 'theo-doi-nhap-vien.html')
 
-def quan_ly_chuong_view(request):
-    return render(request, 'quan-ly-chuong.html')
+
 
 def sap_lich_kham_view(request):
     return render(request, 'sap-lich-kham.html')
@@ -297,7 +297,7 @@ def delete_veterinarian(request, veterinarian_id):
 # Quản lý bác sĩ
 
 
-
+#--------------------------------------------------------------------------------------------------------#
 
 def ghi_nhan_kham_view(request):
     if request.method == "POST":
@@ -313,20 +313,6 @@ def examination_history(request):
     records = MedicalRecord.objects.all().order_by('-date')
     return render(request, 'Ho_So_Kham/lich-su-kham.html', {'records': records})
 
-def cap_nhat_thong_tin_chuong_view(request):
-    if request.method == "POST":
-        record_id = request.POST.get('record_id')
-        stay_required = request.POST.get('stay_required') == 'on'
-
-        try:
-            record = MedicalRecord.objects.get(pk=record_id)
-            record.stay_required = stay_required
-            record.save()
-        except MedicalRecord.DoesNotExist:
-            pass
-        return redirect('lich_su_kham')
-    records = MedicalRecord.objects.filter(stay_required=True)
-    return render(request, 'Ho_So_Kham/cap-nhat-thong-tin-chuong.html', {'records': records})
 
 def rating_view(request, record_id):
     record = get_object_or_404(MedicalRecord, pk=record_id)
@@ -344,6 +330,94 @@ def rating_view(request, record_id):
 def rating_pending_view(request):
     records = MedicalRecord.objects.filter(rating__isnull=True).order_by('-date')
     return render(request, 'Ho_So_Kham/danh-gia-chua-danh-gia.html', {'records': records})
+
+
+def danh_sach_cho_xep_chuong(request):
+    pets_needing_kennel = MedicalRecord.objects.filter(stay_required=True).values_list('pet', flat=True)
+    assigned_pets = KennelAssignment.objects.values_list('pet', flat=True)
+    unassigned_pets = [pet for pet in pets_needing_kennel if pet not in assigned_pets]
+    available_kennels = Kennel.objects.filter(is_occupied=False)
+
+    unassigned_pets = [Pet.objects.get(pk=pet) for pet in unassigned_pets]
+    kennel_info = []
+    for kennel in available_kennels:
+        pet_name = None
+        kennel_assignment = KennelAssignment.objects.filter(kennel=kennel).first()
+        if kennel_assignment and kennel_assignment.pet:
+            pet_name = kennel_assignment.pet.name
+        kennel_info.append({'kennel': kennel, 'pet_name': pet_name})
+
+    return render(request, 'Ho_So_Kham/danh-sach-cho-xep-chuong.html', {
+        'unassigned_pets': unassigned_pets,
+        'available_kennels': available_kennels,
+        'kennel_info': kennel_info
+    })
+
+def assign_kennel(request):
+    if request.method == "POST":
+        form = AssignKennelForm(request.POST)
+        if form.is_valid():
+            assignment = form.save()
+            kennel = assignment.kennel
+            kennel.is_occupied = True
+            kennel.save()
+            pet = assignment.pet
+            medical_record = MedicalRecord.objects.filter(pet=pet).first()
+            if medical_record:
+                medical_record.stay_required = True 
+                medical_record.save()
+
+            return redirect('danh_sach_cho_xep_chuong')
+    else:
+        form = AssignKennelForm()
+    return render(request, 'Ho_So_Kham/gan-chuong.html', {'form': form})
+
+def quan_ly_chuong_view(request):
+    kennels = Kennel.objects.all()
+    form = KennelForm()
+    kennel_info = []
+    for kennel in kennels:
+        pet_name = None
+        kennel_assignment = KennelAssignment.objects.filter(kennel=kennel).first()
+        if kennel_assignment and kennel_assignment.pet:
+            pet_name = kennel_assignment.pet.name
+        kennel_info.append({'kennel': kennel, 'pet_name': pet_name})
+    if request.method == 'POST':
+        form = KennelForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('quan-ly-chuong')
+
+    return render(request, 'Ho_So_Kham/quan-ly-chuong.html', {'form': form, 'kennels': kennels, 'kennel_info': kennel_info})
+
+def xoa_chuong(request, kennel_id):
+    kennel = get_object_or_404(Kennel, kennel_id=kennel_id)
+    kennel.delete()
+    return redirect('quan_ly_chuong')
+
+def reset_kennel(request, kennel_id):
+    try:
+        kennel = Kennel.objects.get(pk=kennel_id)
+    except Kennel.DoesNotExist:
+        messages.error(request, 'Chuồng không tồn tại.')
+        return redirect('quan_ly_chuong')
+    if kennel.is_occupied:
+        kennel.is_occupied = False
+        kennel_assignment = KennelAssignment.objects.filter(kennel=kennel).first()
+        if kennel_assignment:
+            pet = kennel_assignment.pet
+            medical_record = MedicalRecord.objects.filter(pet=pet).first()
+            if medical_record:
+                medical_record.stay_required = False
+                medical_record.save()
+            kennel_assignment.pet = None
+            kennel_assignment.save()
+        kennel.save()
+        messages.success(request, 'Chuồng đã được làm trống và không có thú cưng.')
+    else:
+        messages.info(request, 'Chuồng đã trống và không có thú cưng.')
+    return redirect('danh_sach_cho_xep_chuong') 
+#--------------------------------------------------------------------------------------------------------#
 
 
 
