@@ -1,0 +1,33 @@
+{% extends "master.html" %}
+
+{% block menu %}
+    {% include 'menu-inner.html' %}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'Nav-bar.html' %}
+{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Sắp lịch nhập viện</title>
+</head>
+<body>
+    <h2>Sắp lịch nhập viện</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Xác nhận</button>
+    </form>
+    <a href="{% url 'track_admission' %}">Xem danh sách nhập viện</a>
+</body>
+</html>
+
+{% endblock %}
+
+{% block footer %}
+    {% include 'footer.html' %}
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "master.html" %}
+
+{% block menu %}
+    {% include 'menu-inner.html' %}
+{% endblock %}
+
+{%block content%}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Cập nhật chăm sóc</title>
+</head>
+<body>
+    <h2>Cập nhật chăm sóc cho {{ record.pet.name }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Lưu</button>
+    </form>
+    <a href="{% url 'danh_sach_cham_soc' %}">Quay lại danh sách</a>
+</body>
+</html>
+{%endblock%}
+
+{% block footer %}
+    {% include 'footer.html' %}
+{% endblock %}

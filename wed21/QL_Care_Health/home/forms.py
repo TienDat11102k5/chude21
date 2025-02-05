@@ -7,6 +7,7 @@ from LichTrinhBS_MNG.models import LichTrinhBS
 from Booking_MNG.models import Booking
 from MedicalRecord_MNG.models import MedicalRecord
 from Kennel_MNG.models import KennelAssignment, Kennel
+from HospitalizationRecord_MNG.models import HospitalizationRecord
 class PetForm(forms.ModelForm):
     class Meta:
         model = Pet
@@ -99,3 +100,14 @@ class AssignKennelForm(forms.ModelForm):
     class Meta:
         model = KennelAssignment
         fields = ['pet', 'kennel']
+
+
+class ScheduleAdmissionForm(forms.ModelForm):
+    class Meta:
+        model = KennelAssignment
+        fields = ['pet', 'kennel']
+
+class CareAdmissionForm(forms.ModelForm):
+    class Meta:
+        model = HospitalizationRecord
+        fields = ['notes']

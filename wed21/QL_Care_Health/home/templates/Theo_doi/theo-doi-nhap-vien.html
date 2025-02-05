@@ -1,0 +1,43 @@
+<!-- theo-doi-nhap-vien.html -->
+{% extends "master.html" %}
+
+{% block menu %}
+    {% include 'menu-inner.html' %}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'Nav-bar.html' %}
+{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Theo dõi nhập viện</title>
+</head>
+<body>
+    <h2>Danh sách thú cưng nhập viện</h2>
+    <table border="1">
+        <tr>
+            <th>Thú cưng</th>
+            <th>Ngày nhập viện</th>
+            <th>Ghi chú</th>
+        </tr>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.pet.name }}</td>
+            <td>{{ record.admitted_at }}</td>
+            <td>{{ record.notes }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'schedule_admission' %}">Sắp lịch nhập viện</a>
+</body>
+</html>
+
+{% endblock %}
+
+{% block footer %}
+    {% include 'footer.html' %}
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from home.forms import Pet,PetForm,Customer,CustomerForm,Employee,EmployeeForm,Kennel, KennelAssignment,AssignKennelForm,KennelForm
 from home.forms import Veterinarian, VeterinarianForm,LichTrinhBS,LichTrinhBSForm,Booking,BookingForm,MedicalRecord,MedicalRecordForm,MedicalRecordRatingForm
+from home.forms import ScheduleAdmissionForm,CareAdmissionForm,HospitalizationRecord
 from django.http import HttpResponseForbidden
 from django.template import loader
 from django.contrib import messages
@@ -163,26 +164,55 @@ def delete_booking(request, booking_id):
 #Booking
 
 
-
-
-
-
-
-
-
-
 def danh_gia_kham_view(request):
     return render(request, 'danh-gia-kham.html')
+
+
+
+#theo doi
+def sap_lich_nhap_vien_view(request):
+    if request.method == "POST":
+        form = ScheduleAdmissionForm(request.POST)
+        if form.is_valid():
+            assignment = form.save()
+            kennel = assignment.kennel
+            kennel.is_occupied = True
+            kennel.save()
+            HospitalizationRecord.objects.create(pet=assignment.pet, kennel_assignment=assignment)
+            return redirect('track_admission')
+    else:
+        form = ScheduleAdmissionForm()
+    return render(request, 'Theo_doi/sap-lich-nhap-vien.html', {'form': form})
+
+
 def theo_doi_nhap_vien_view(request):
-    return render(request, 'theo-doi-nhap-vien.html')
+    records = HospitalizationRecord.objects.filter(discharged_at__isnull=True)
+    return render(request, 'Theo_doi/theo-doi-nhap-vien.html', {'records': records})
+
+
+def danh_sach_cham_soc_view(request):
+    records = HospitalizationRecord.objects.filter(discharged_at__isnull=True)
+    return render(request, 'Theo_doi/danh-sach-cham-soc.html', {'records': records})
+
+
+def cap_nhat_cham_soc_view(request, record_id):
+    record = get_object_or_404(HospitalizationRecord, record_id=record_id)
+    if request.method == "POST":
+        form = CareAdmissionForm(request.POST, instance=record)
+        if form.is_valid():
+            form.save()
+            return redirect('danh_sach_cham_soc')
+    else:
+        form = CareAdmissionForm(instance=record)
+    return render(request, 'Theo_doi/cap-nhat-cham-soc.html', {'form': form, 'record': record})
+#theo doi
+
+
 
 
 
 def sap_lich_kham_view(request):
     return render(request, 'sap-lich-kham.html')
-def sap_lich_nhap_vien_view(request):
-    return render(request, 'sap-lich-nhap-vien.html')
-
 
 #Đăng ký lịch trình bác sĩ
 def lichDK_list(request):
@@ -220,8 +250,6 @@ def delete_lichDK(request, lich_trinh_id):
 
 def ghi_nhan_kham_view(request):
     return render(request, 'ghi-nhan-kham.html')
-def cham_soc_nhap_vien_view(request):
-    return render(request, 'cham-soc-nhap-vien.html')
 
 #Quản Lý Khách Hàng
 def kh_list(request):

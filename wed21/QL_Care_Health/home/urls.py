@@ -60,15 +60,24 @@ urlpatterns = [
 
     
     path('checkin-thu-cung.html', views.checkin_thu_cung_view, name='checkin_pet'),
-    path('theo-doi-nhap-vien.html', views.theo_doi_nhap_vien_view, name='track_admission'),
+    
    
     
   
     path('sap-lich-kham.html', views.sap_lich_kham_view, name='schedule_exam'),
+
+
+
+
+
     path('sap-lich-nhap-vien.html', views.sap_lich_nhap_vien_view, name='schedule_admission'),
+    path('theo-doi-nhap-vien.html', views.theo_doi_nhap_vien_view, name='track_admission'),
+    path('danh-sach-cham-soc.html',views.danh_sach_cham_soc_view, name='danh_sach_cham_soc'),
+    path('cap-nhat-cham-soc/<int:record_id>/',views.cap_nhat_cham_soc_view, name='cap_nhat_cham_soc'),
 
 
 
+    
     path('lich-dang-ky.html', views.lichDK_list, name='lichDK_list'),
     path('thoi-gian-kham.html', views.thoi_gian_kham_view, name='exam_time'),
     path('thoi-gian-kham/<int:veterinarian_id>/', views.thoi_gian_kham_view, name='exam_time'),
@@ -77,7 +86,7 @@ urlpatterns = [
 
 
    
-    path('cham-soc-nhap-vien.html', views.cham_soc_nhap_vien_view, name='care_admission'),
+    
 #-------------------------------------------------------------------------------------------------------------#
     # tài khoản khách hàng
     path('ds-khach-hang.html', views.kh_list, name='ds-khach-hang'),

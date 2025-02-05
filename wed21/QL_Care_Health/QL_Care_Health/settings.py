@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'LichTrinhBS_MNG',
     'MedicalRecord_MNG',
     'Kennel_MNG',
+    'HospitalizationRecord_MNG',
     'home'
    
 ]
