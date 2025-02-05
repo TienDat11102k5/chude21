@@ -1,81 +1,38 @@
-<!-- theo-doi-nhap-vien.html -->
 {% extends "master.html" %}
 
 {% block menu %}
     {% include 'menu-inner.html' %}
 {% endblock %}
 
-{% block navbar %}
-    {% include 'Nav-bar.html' %}
-{% endblock %}
-
 {% block content %}
-<h2>Danh sách thú cưng nhập viện</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Thú cưng</th>
-            <th>Ngày nhập viện</th>
-            <th>Ghi chú</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for record in records %}
-        <tr>
-            <td>{{ record.pet.name }}</td>
-            <td>{{ record.admitted_at }}</td>
-            <td>{{ record.notes }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<a href="{% url 'schedule_admission' %}" class="btn-schedule">Sắp lịch nhập viện</a>
-
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 20px;
-    }
-    h2 {
-        color: #003366; 
-        text-align: center;
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0;
-        background-color: #fff;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    th, td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
-    th {
-        background-color: #007BFF; 
-        color: white;
-    }
-    tr:hover {
-        background-color: #e7f1ff; 
-    }
-    .btn-schedule {
-        display: block;
-        text-align: center;
-        margin: 20px auto;
-        padding: 10px 20px;
-        background-color: #007BFF; 
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        width: 200px;
-    }
-    .btn-schedule:hover {
-        background-color: #0056b3; 
-    }
-</style>
+<div class="container mt-5">
+    <h2 class="text-center text-success fw-bold">Danh sách Thú Cưng Nhập Viện</h2>
+    <div class="card shadow-lg p-4 mt-4">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="bg-success text-white">
+                    <tr>
+                        <th>Thú cưng</th>
+                        <th>Ngày nhập viện</th>
+                        <th>Ghi chú</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records %}
+                    <tr>
+                        <td class="fw-bold">{{ record.pet.name }}</td>
+                        <td>{{ record.admitted_at }}</td>
+                        <td>{{ record.notes }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'schedule_admission' %}" class="btn btn-lg btn-success shadow-sm">Sắp lịch nhập viện</a>
+    </div>
+</div>
 {% endblock %}
 
 {% block footer %}
