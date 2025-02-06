@@ -1,0 +1,44 @@
+{% extends "master.html" %}
+
+{% block menu %}
+    {% include 'menu-inner.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center text-success fw-bold">Thống Kê Hoạt Động - Doanh Thu</h1>
+    
+    <div class="card shadow-lg p-4 mt-4">
+        <table class="table table-bordered table-striped">
+            <thead class="bg-success text-white">
+                <tr>
+                    <th>Thời Gian</th>
+                    <th>Doanh Thu (VNĐ)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Hôm Nay</td>
+                    <td>{{ today_revenue|floatformat:2 }}</td>
+                </tr>
+                <tr>
+                    <td>Tháng Này</td>
+                    <td>{{ current_month_revenue|floatformat:2 }}</td>
+                </tr>
+                <tr>
+                    <td>Tuần Này</td>
+                    <td>{{ week_revenue|floatformat:2 }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="/" class="btn btn-primary">Quay lại trang chủ</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+    {% include 'footer.html' %}
+{% endblock %}

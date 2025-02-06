@@ -3,8 +3,11 @@ from home.forms import Pet,PetForm,Customer,CustomerForm,Employee,EmployeeForm,K
 from home.forms import Veterinarian, VeterinarianForm,LichTrinhBS,LichTrinhBSForm,Booking,BookingForm,MedicalRecord,MedicalRecordForm,MedicalRecordRatingForm
 from home.forms import ScheduleAdmissionForm,CareAdmissionForm,HospitalizationRecord
 from django.http import HttpResponseForbidden
-from django.template import loader
 from django.contrib import messages
+from django.db.models import Sum
+from django.utils.timezone import now
+from datetime import timedelta
+
 
 # Create your views here.
 def home(request):
@@ -130,7 +133,7 @@ def employee_change_booking_status(request, booking_id):
     if not request.user.has_perm('Booking.change_booking_status'):
         return HttpResponseForbidden("Bạn không có quyền chỉnh sửa trạng thái.")
     if request.method == 'POST':
-        new_status = request.POST.get('status')  # Nhận trạng thái mới từ form
+        new_status = request.POST.get('status') 
         if new_status in ['Pending', 'Confirmed', 'Cancelled']:
             booking.status = new_status 
             if new_status == 'Confirmed' and not booking.veterinarian:
@@ -141,7 +144,6 @@ def employee_change_booking_status(request, booking_id):
                         booking.veterinarian = veterinarian
                     except Exception as e:
                         messages.error(request, f"Lỗi khi cập nhật bác sĩ: {e}")
-                
                 else:
                     default_veterinarian = Veterinarian.objects.first()
                     if default_veterinarian:
@@ -149,13 +151,14 @@ def employee_change_booking_status(request, booking_id):
                     else:
                         messages.error(request, "Không có bác sĩ nào được chọn và không có bác sĩ mặc định.")
                         return redirect('quan_ly_booking')
+            if new_status == 'Confirmed':
+                booking.paid = True  
             booking.save()  
             messages.success(request, f"Trạng thái lịch đặt ID {booking.id} đã được cập nhật thành công!")
         else:
             messages.error(request, "Trạng thái không hợp lệ.")
     
     return redirect('quan_ly_booking')
-
 def delete_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
     booking.delete()
@@ -460,5 +463,18 @@ def reset_kennel(request, kennel_id):
 
 def system_configuration(request):
     return render(request, 'cau-hinh-he-thong.html')
+
+
+
 def activity_statistics(request):
-    return render(request, 'thong-ke-hoat-dong.html')
+    bookings = Booking.objects.filter(status='Confirmed', paid=True)
+    today_revenue = bookings.filter(appointment_date__date=now().date()).aggregate(total=Sum('fee'))['total'] or 0
+    current_month_revenue = bookings.filter(appointment_date__month=now().month, appointment_date__year=now().year).aggregate(total=Sum('fee'))['total'] or 0
+    start_of_week = now() - timedelta(days=now().weekday())
+    week_revenue = bookings.filter(appointment_date__gte=start_of_week).aggregate(total=Sum('fee'))['total'] or 0
+    context = {
+        'today_revenue': today_revenue,
+        'current_month_revenue': current_month_revenue,
+        'week_revenue': week_revenue,
+    }
+    return render(request, 'Doanh_thu/thong-ke-hoat-dong.html', context)
