@@ -10,15 +10,10 @@ urlpatterns = [
     path('customer_list/quan-ly-thu-cung.html/<int:customer_id>/', views.customer_list, name='customer_list'),
     path('success.html', views.success, name='success'),
     path('delete_pet/<int:pet_id>/', views.delete_pet, name='delete_pet'),
+    path('checkin-thu-cung.html', views.checkin_thu_cung_view, name='checkin_pet'),
      # Quản lý Thú Cưng
 #-------------------------------------------------------------------------------------------------------------#
-    
-    
-    
-    
-    
-    
-    
+   
     path('lich-su-kham.html', views.examination_history, name='history_exam'),
 
 
@@ -59,15 +54,10 @@ urlpatterns = [
 
 
     
-    path('checkin-thu-cung.html', views.checkin_thu_cung_view, name='checkin_pet'),
+   
     
    
     
-  
-    path('sap-lich-kham.html', views.sap_lich_kham_view, name='schedule_exam'),
-
-
-
 
 
     path('sap-lich-nhap-vien.html', views.sap_lich_nhap_vien_view, name='schedule_admission'),
@@ -78,7 +68,7 @@ urlpatterns = [
 
 
 
-    
+    path('sap-lich-kham.html', views.sap_lich_kham_view, name='schedule_exam'),
     path('lich-dang-ky.html', views.lichDK_list, name='lichDK_list'),
     path('thoi-gian-kham.html', views.thoi_gian_kham_view, name='exam_time'),
     path('thoi-gian-kham/<int:veterinarian_id>/', views.thoi_gian_kham_view, name='exam_time'),

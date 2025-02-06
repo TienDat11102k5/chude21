@@ -168,7 +168,6 @@ def danh_gia_kham_view(request):
     return render(request, 'danh-gia-kham.html')
 
 
-
 #theo doi
 def sap_lich_nhap_vien_view(request):
     if request.method == "POST":
@@ -214,18 +213,23 @@ def xoa_cham_soc_view(request, record_id):
 #theo doi
 
 
-
-
-
-def sap_lich_kham_view(request):
-    return render(request, 'sap-lich-kham.html')
-
 #Đăng ký lịch trình bác sĩ
-def lichDK_list(request):
-    veterinarians = Veterinarian.objects.all()  # Lấy tất cả bác sĩ
+def sap_lich_kham_view(request):
+    veterinarians = Veterinarian.objects.all()
     data = []
     for vet in veterinarians:
-        lich_trinh_list = vet.lich_trinh.all()  # Lấy tất cả lịch khám của bác sĩ
+        lich_trinh_list = vet.lich_trinh.all()
+        data.append({
+            'veterinarian': vet,
+            'lich_trinh_list': lich_trinh_list
+        })
+    return render(request, 'sap-lich-kham.html', {'data': data})
+
+def lichDK_list(request):
+    veterinarians = Veterinarian.objects.all()
+    data = []
+    for vet in veterinarians:
+        lich_trinh_list = vet.lich_trinh.all()
         data.append({
             'veterinarian': vet,
             'lich_trinh_list': lich_trinh_list
@@ -250,7 +254,6 @@ def delete_lichDK(request, lich_trinh_id):
     if lich_trinh:
         lich_trinh.delete()
     return redirect('lichDK_list')
-
 #Đăng ký lịch trình bác sĩ
 
 
