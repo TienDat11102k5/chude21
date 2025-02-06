@@ -1,16 +1,145 @@
 {% extends "master.html" %}
 
 {% block menu %}
-    {% include 'menu-inner.html' %}
+  {% include 'menu-inner.html' %}
 {% endblock %}
 
 {% block navbar %}
-    {% include 'Nav-bar.html' %}
-{% endblock %} 
+  {% include 'nav-bar.html' %}
+{% endblock %}
 
-{%block content%}
-{%endblock%}
+{% block content %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cấu Hình Hệ Thống - Pet Health Care System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+    <script>
+        function saveConfig() {
+            let config = {
+                server: document.getElementById("server").value,
+                cpu: document.getElementById("cpu").value,
+                os: document.getElementById("os").value,
+                backend: document.getElementById("backend").value,
+                database: document.getElementById("database").value,
+                security: document.getElementById("security").value
+            };
+            localStorage.setItem("config", JSON.stringify(config));
+            alert("Cấu hình đã được lưu thành công!");
+        }
 
-{% block footer %}
-    {% include 'footer.html' %}
+        function loadConfig() {
+            let savedConfig = localStorage.getItem("config");
+            if (savedConfig) {
+                let config = JSON.parse(savedConfig);
+                document.getElementById("server").value = config.server;
+                document.getElementById("cpu").value = config.cpu;
+                document.getElementById("os").value = config.os;
+                document.getElementById("backend").value = config.backend;
+                document.getElementById("database").value = config.database;
+                document.getElementById("security").value = config.security;
+            }
+        }
+
+        window.onload = loadConfig;
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Cấu Hình Hệ Thống</h1>
+        
+        <h2>1. Phần Cứng</h2>
+        <label for="server">Máy chủ:</label>
+        <select id="server">
+            <option>AWS</option>
+            <option>Google Cloud</option>
+            <option>Azure</option>
+            <option>VPS</option>
+        </select>
+        
+        <label for="cpu">CPU:</label>
+        <select id="cpu">
+            <option>Intel Xeon (4 cores)</option>
+            <option>Intel Xeon (8 cores)</option>
+            <option>AMD EPYC (8 cores)</option>
+        </select>
+        
+        <h2>2. Phần Mềm</h2>
+        <label for="os">Hệ điều hành:</label>
+        <select id="os">
+            <option>Ubuntu 22.04</option>
+            <option>CentOS</option>
+            <option>Windows Server</option>
+        </select>
+        
+        <label for="backend">Backend:</label>
+        <select id="backend">
+            <option>Node.js</option>
+            <option>Django</option>
+            <option>Laravel</option>
+        </select>
+        
+        <h2>3. Cơ Sở Dữ Liệu</h2>
+        <label for="database">Loại CSDL:</label>
+        <select id="database">
+            <option>MySQL</option>
+            <option>PostgreSQL</option>
+            <option>MongoDB</option>
+        </select>
+        
+        <h2>4. Bảo Mật</h2>
+        <label for="security">Chứng chỉ bảo mật:</label>
+        <select id="security">
+            <option>SSL (HTTPS)</option>
+            <option>Cloudflare</option>
+            <option>ModSecurity</option>
+        </select>
+        
+        <button onclick="saveConfig()">Lưu Cấu Hình</button>
+    </div>
+</body>
+</html>
 {% endblock %}
