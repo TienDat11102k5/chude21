@@ -205,6 +205,12 @@ def cap_nhat_cham_soc_view(request, record_id):
     else:
         form = CareAdmissionForm(instance=record)
     return render(request, 'Theo_doi/cap-nhat-cham-soc.html', {'form': form, 'record': record})
+
+def xoa_cham_soc_view(request, record_id):
+    record = get_object_or_404(HospitalizationRecord, record_id=record_id)
+    record.delete()
+    return redirect('danh_sach_cham_soc')
+
 #theo doi
 
 

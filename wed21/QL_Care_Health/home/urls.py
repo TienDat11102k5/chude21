@@ -74,6 +74,7 @@ urlpatterns = [
     path('theo-doi-nhap-vien.html', views.theo_doi_nhap_vien_view, name='track_admission'),
     path('danh-sach-cham-soc.html',views.danh_sach_cham_soc_view, name='danh_sach_cham_soc'),
     path('cap-nhat-cham-soc/<int:record_id>/',views.cap_nhat_cham_soc_view, name='cap_nhat_cham_soc'),
+    path('xoa-cham-soc/<int:record_id>/', views.xoa_cham_soc_view, name='xoa_cham_soc'),
 
 
 
