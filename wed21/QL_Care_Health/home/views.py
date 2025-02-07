@@ -226,7 +226,7 @@ def sap_lich_kham_view(request):
             'veterinarian': vet,
             'lich_trinh_list': lich_trinh_list
         })
-    return render(request, 'sap-lich-kham.html', {'data': data})
+    return render(request, 'BS_DK_Lich/sap-lich-kham.html', {'data': data})
 
 def lichDK_list(request):
     veterinarians = Veterinarian.objects.all()
