@@ -14,7 +14,8 @@ def home(request):
     return render(request, 'home/hom9.html')
 def index(request):
     return render(request, 'index.html')
-
+def information(request):
+    return render(request, 'thong_tin.html')
 #Quản lý thú cưng
 def customer_list(request):
     return render(request, 'customer_list.html')

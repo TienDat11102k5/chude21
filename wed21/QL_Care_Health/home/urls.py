@@ -107,4 +107,5 @@ urlpatterns = [
 
     path('cau-hinh-he-thong.html', views.system_configuration, name='system_configuration'),
     path('thong-ke-hoat-dong.html', views.activity_statistics, name='activity_statistics'),
+    path('thong_tin.html', views.information, name='thong_tin'),
 ]
