@@ -85,14 +85,14 @@ WSGI_APPLICATION = 'QL_Care_Health.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-	'default': {
-		'ENGINE': 'django.db.backends.mysql',
-		'NAME': 'Djangodb',
-		'USER': 'root',
-		'PASSWORD': '1234',
-		'HOST':'127.0.0.1',
-		'PORT':'3306',
-	}
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mydatabase',
+        'USER': 'myuser',
+        'PASSWORD': 'mypassword',
+        'HOST': 'db', 
+        'PORT': '5432',
+    }
 }
 #MY SQL
 
