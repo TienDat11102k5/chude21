@@ -131,8 +131,6 @@ def change_veterinarian(request, booking_id):
 
 def employee_change_booking_status(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
-    if not request.user.has_perm('Booking.change_booking_status'):
-        return HttpResponseForbidden("Bạn không có quyền chỉnh sửa trạng thái.")
     if request.method == 'POST':
         new_status = request.POST.get('status') 
         if new_status in ['Pending', 'Confirmed', 'Cancelled']:
