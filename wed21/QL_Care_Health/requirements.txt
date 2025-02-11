@@ -40,6 +40,7 @@ tornado==6.4
 traitlets==5.14.0
 tzdata==2024.2
 wcwidth==0.2.12
+selenium==4.28.1
 django-redis
 redis 
 elasticsearch
