@@ -1,11 +1,13 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
+
 def setup_driver():
     """Khởi tạo và trả về driver."""
     driver = webdriver.Chrome()
     driver.maximize_window()
     return driver
+
 def enter_employee_info(driver, name, phone, address, email, birthday, password):
     """Nhập thông tin nhân viên hoặc bác sĩ."""
     driver.find_element(By.NAME, "name").send_keys(name)
@@ -15,6 +17,7 @@ def enter_employee_info(driver, name, phone, address, email, birthday, password)
     driver.find_element(By.NAME, "birthday").send_keys(birthday)
     driver.find_element(By.NAME, "password").send_keys(password)
     print(f"Đã nhập thông tin cho: {name}")
+
 def submit_form(driver):
     """Bấm nút Tạo Tài Khoản hoặc Lưu Thông Tin."""
     button = driver.find_element(By.XPATH, "//button[@type='submit']")
@@ -22,6 +25,7 @@ def submit_form(driver):
     time.sleep(1)
     button.click()
     print("Đã bấm nút submit!")
+
 def create_employee_account(driver):
     """Tạo tài khoản nhân viên."""
     driver.get("http://localhost:8000/tao-tai-khoan-nhan-vien.html")
@@ -32,6 +36,7 @@ def create_employee_account(driver):
         "tranninh456@gmail.com", "09/09/2005", "1234"
     )
     submit_form(driver)
+
 def create_doctor_account(driver):
     """Tạo tài khoản bác sĩ."""
     driver.get("http://localhost:8000/tao-tai-khoan-bac-si.html")
@@ -42,6 +47,7 @@ def create_doctor_account(driver):
         "nhathuynhathuy456@gmail.com", "09/09/2005", "1234"
     )
     submit_form(driver)
+
 def create_customer_account(driver):
     """Tạo tài khoản khách hàng."""
     driver.get("http://localhost:8000/tao-tai-khoan-khach-hang.html")
@@ -52,6 +58,7 @@ def create_customer_account(driver):
         "dodatsdf282@gmail.com", "10/11/2005", "1234"
     )
     submit_form(driver)
+
 def fill_pet_info(driver, customer_name, pet_name, species, age, medical_history):
     """Nhập thông tin pet."""
     driver.get("http://localhost:8000/checkin-thu-cung.html")
@@ -63,28 +70,73 @@ def fill_pet_info(driver, customer_name, pet_name, species, age, medical_history
     driver.find_element(By.NAME, "medical_history").send_keys(medical_history)
     print(f"Đã nhập thông tin pet: {pet_name}.")
     submit_form(driver)
+
 def fill_kennel_info(driver, kennel_name):
-    """Nhập thông tin pet."""
+    """Nhập thông tin chuồng thú cưng."""
     driver.get("http://localhost:8000/quan-ly-chuong.html")
     time.sleep(2)
     driver.find_element(By.NAME, "name").send_keys(kennel_name)
     print(f"Đã thêm chuồng: {kennel_name}.")
     submit_form(driver)
+
+def click_register_button(driver):
+    """Tự động nhấp vào nút 'Đăng ký' trong lịch khám."""
+    driver.get("http://localhost:8000/lich-dang-ky.html")
+    time.sleep(2)
+    try:
+        register_buttons = driver.find_elements(By.CLASS_NAME, "btn-primary")  # Lấy danh sách các nút "Đăng ký"
+        if register_buttons:
+            for button in register_buttons:
+                button.click()
+                print("Đã nhấp vào nút Đăng ký!")
+                time.sleep(2)  # Đợi một chút giữa các lần nhấp
+        else:
+            print("Không tìm thấy nút Đăng ký!")
+    except Exception as e:
+        print("Lỗi:", e)
+    time.sleep(5)
+
+def fill_Dk_info(driver, date_value, start, end):
+    """Nhập thông tin chuồng thú cưng."""
+    driver.get("http://localhost:8000/thoi-gian-kham/1/")
+    time.sleep(2)
+    driver.find_element(By.NAME, "date").send_keys(date_value)
+    script = f"document.getElementsByName('start_time')[0].value = '{start}';"
+    driver.execute_script(script)
+    script = f"document.getElementsByName('end_time')[0].value = '{end}';"
+    driver.execute_script(script)
+    print(f"Da dang ky thanh cong: {date_value}.")
+    submit_form(driver)
+
+# Khởi tạo driver
 driver = setup_driver()
 try:
     driver.get("http://localhost:8000/")
     time.sleep(2)
+    
+    # Tạo tài khoản
     create_employee_account(driver)
     time.sleep(2)
     create_doctor_account(driver)
     time.sleep(2)
     create_customer_account(driver)
     time.sleep(2)
+    
+    # Thêm thú cưng
     fill_pet_info(driver, "Đỗ Tiến Đạt", "Chichi", "Chó", "1", "không")
     fill_pet_info(driver, "Đỗ Tiến Đạt", "Lulu", "Mèo", "1", "không")
-    fill_kennel_info(driver, "so 1")
-    fill_kennel_info(driver, "so 2")
-    fill_kennel_info(driver, "so 3")
+    
+    # Thêm chuồng
+    fill_kennel_info(driver, "số 1")
+    fill_kennel_info(driver, "số 2")
+    fill_kennel_info(driver, "số 3")
+    
+    #Thêm lịch bác sỹ
+    fill_Dk_info(driver, "22/07/2023", "07:38", "19:38")
+    
+    # Đăng ký lịch khám tự động
+    click_register_button(driver)
+
     input("Nhấn Enter để thoát và đóng trình duyệt...")
 finally:
     driver.quit()
