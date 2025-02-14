@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
 import time
 
 def setup_driver():
@@ -19,6 +20,23 @@ def submit_form(driver):
         time.sleep(2)
     except Exception as e:
         print(f"Lỗi khi bấm Submit: {e}")
+def fill_chonchuong_info(driver):
+    """Chọn chuồng đầu tiên có thể chọn được."""
+    driver.get("http://localhost:8000/danh-sach-cho-xep-chuong.html")
+    time.sleep(2)
+    select_element = driver.find_element(By.NAME, "kennel")
+    select = Select(select_element)
+    select.select_by_index(1)
+    driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
+
+def fill_chonchuong2_info(driver):
+    """Chọn pet đầu tiên có thể chọn được."""
+    time.sleep(2)
+    select_element = driver.find_element(By.NAME, "pet")
+    select = Select(select_element)
+    select.select_by_index(1)
+    submit_form(driver)
+
 
 def fill_nhapvien_info(driver, pet_name, kennel):
     """Nhập thông tin nhập viện."""
@@ -58,7 +76,9 @@ def fill_ghichu_info(driver, notes):
 driver = setup_driver()
 try:
     driver.get("http://localhost:8000/")
-    fill_nhapvien_info(driver, "Chichi", "1")
+    fill_chonchuong_info(driver)
+    fill_chonchuong2_info(driver)
+    fill_nhapvien_info(driver, "Chichi", "số 1")
     click_update_button(driver)
     fill_ghichu_info(driver, "Die")
     driver.get("http://localhost:8000/theo-doi-nhap-vien.html")

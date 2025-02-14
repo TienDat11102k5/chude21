@@ -79,26 +79,9 @@ def fill_kennel_info(driver, kennel_name):
     print(f"Đã thêm chuồng: {kennel_name}.")
     submit_form(driver)
 
-def click_register_button(driver):
-    """Tự động nhấp vào nút 'Đăng ký' trong lịch khám."""
-    driver.get("http://localhost:8000/lich-dang-ky.html")
-    time.sleep(2)
-    try:
-        register_buttons = driver.find_elements(By.CLASS_NAME, "btn-primary")  # Lấy danh sách các nút "Đăng ký"
-        if register_buttons:
-            for button in register_buttons:
-                button.click()
-                print("Đã nhấp vào nút Đăng ký!")
-                time.sleep(2)  # Đợi một chút giữa các lần nhấp
-        else:
-            print("Không tìm thấy nút Đăng ký!")
-    except Exception as e:
-        print("Lỗi:", e)
-    time.sleep(5)
-
 def fill_Dk_info(driver, date_value, start, end):
     """Nhập thông tin chuồng thú cưng."""
-    driver.get("http://localhost:8000/thoi-gian-kham/1/")
+    driver.get("http://localhost:8000/thoi-gian-kham/58/")
     time.sleep(2)
     driver.find_element(By.NAME, "date").send_keys(date_value)
     script = f"document.getElementsByName('start_time')[0].value = '{start}';"
@@ -113,30 +96,19 @@ driver = setup_driver()
 try:
     driver.get("http://localhost:8000/")
     time.sleep(2)
-    
-    # Tạo tài khoản
     create_employee_account(driver)
     time.sleep(2)
     create_doctor_account(driver)
     time.sleep(2)
     create_customer_account(driver)
     time.sleep(2)
-    
-    # Thêm thú cưng
     fill_pet_info(driver, "Đỗ Tiến Đạt", "Chichi", "Chó", "1", "không")
     fill_pet_info(driver, "Đỗ Tiến Đạt", "Lulu", "Mèo", "1", "không")
-    
-    # Thêm chuồng
     fill_kennel_info(driver, "số 1")
     fill_kennel_info(driver, "số 2")
     fill_kennel_info(driver, "số 3")
+    fill_Dk_info(driver, "15/02/2025", "07:30", "18:00")
     
-    #Thêm lịch bác sỹ
-    fill_Dk_info(driver, "22/07/2023", "07:38", "19:38")
-    
-    # Đăng ký lịch khám tự động
-    click_register_button(driver)
-
     input("Nhấn Enter để thoát và đóng trình duyệt...")
 finally:
     driver.quit()
