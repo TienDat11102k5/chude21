@@ -81,7 +81,7 @@ def fill_kennel_info(driver, kennel_name):
 
 def fill_Dk_info(driver, date_value, start, end):
     """Nhập thông tin chuồng thú cưng."""
-    driver.get("http://localhost:8000/thoi-gian-kham/60/")
+    driver.get("http://localhost:8000/thoi-gian-kham/63/")
     time.sleep(2)
     driver.find_element(By.NAME, "date").send_keys(date_value)
     script = f"document.getElementsByName('start_time')[0].value = '{start}';"
@@ -107,7 +107,7 @@ try:
     fill_kennel_info(driver, "số 1")
     fill_kennel_info(driver, "số 2")
     fill_kennel_info(driver, "số 3")
-    fill_Dk_info(driver, "15/02/2025", "07:30", "18:00")
+    fill_Dk_info(driver, "22/02/2025", "07:30", "18:00")
     
     input("Nhấn Enter để thoát và đóng trình duyệt...")
 finally:

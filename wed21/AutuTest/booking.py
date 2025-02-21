@@ -44,8 +44,8 @@ def fill_booking2_info(driver, customer_name, pet_name, veterinarian_name, appoi
 driver = setup_driver()
 try:
     driver.get("http://localhost:8000/")
-    fill_booking_info(driver, "Đỗ Tiến Đạt", "Chichi", "Lưu Nhất Huy", "2025-02-15T09:00", "0")
-    fill_booking2_info(driver, "Đỗ Tiến Đạt", "LuLu", "Lưu Nhất Huy", "2025-02-15T09:00", "0")
+    fill_booking_info(driver, "Đỗ Tiến Đạt", "Chichi", "Lưu Nhất Huy", "2025-02-22T09:00", "0")
+    fill_booking2_info(driver, "Đỗ Tiến Đạt", "LuLu", "Lưu Nhất Huy", "2025-02-22T09:00", "0")
     driver.get("http://localhost:8000/quan-ly-booking.html")
     input("Nhấn Enter để thoát và đóng trình duyệt...")
 finally:
